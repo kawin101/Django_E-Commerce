@@ -3,8 +3,8 @@
 
 
 <div class="container">
-    <br/>
-
+    <br></br>
+    <br></br>
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4">
@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-8">
           <div class="card-body">
-
+            
             <center>
                 <h5 class="card-title">{{ product.name }}</h5>
                 <br/>
@@ -23,8 +23,12 @@
                 <br></br>
                 {{ product.longitude }}
                 <br></br>
-                {{ product.category }}
+
+                <a href="{% url 'searchCategory' product.category_id %}" title="">
+                  <strong>จังหวัด: {{product.category}}</strong>
+                </a>
                 <br></br>
+                
                 {{ product.map_url }}
                 <br></br>
                 {{ product.website }}

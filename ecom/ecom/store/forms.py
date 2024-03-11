@@ -2,6 +2,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
+# สร้างแบบฟอร์มสำหรับการค้นหาและเก็บข้อมูลล่าสุดที่ค้นหาไว้ในตัวแปร 'search_query'
+class SearchForm(forms.Form):
+    search_query = forms.CharField(max_length=255)
+
+# สร้างแบบฟอร์มสำหรับสมัครสมาชิก
 class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
 	first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))

@@ -1,41 +1,73 @@
 
 <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'home' %}">Kawin101 Ecommerce</a>
+                <a class="navbar-brand" href="{% url 'home' %}">โรงแรมสุนัขเข้าพักได้</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">หน้าหลัก</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">ติดต่อ</a></li>
                         {% comment %} <li class="nav-item"><a class="nav-link" href="http://localhost/Numwan/map_api/map_api/map/map_saveall.php">map_saveall</a></li> {% endcomment %}
 
 
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a></li>
                     {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a></li>
 
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">สมัครสมาชิก</a></li>
                     {% endif %}
                         
-                        <li class="nav-item dropdown">
+                        {% comment %} <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Cat-Books' %}">Cat Books</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Dog-Books' %}">Dog Books</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'พังงา' %}">Cat Books</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'ภูเก็ต' %}">Dog Books</a></li>
+                            </ul>
+                        </li> {% endcomment %}
+
+                        <!-- จังหวัด แบบ Dropdown ใช้งานยาก เมื่อมีรายการจังหวัดมากกว่า 20 -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">จังหวัด</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for category in categories %}
+                                    <li><a class="dropdown-item" href="{% url 'searchCategory' category.id %}">{{category.name}}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex">
+
+                    {% comment %} <form class="d-flex">
                         <button class="btn btn-outline-dark" type="submit">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                         </button>
+                    </form> {% endcomment %}
+
+                    <form class="d-flex" method=POST action="{% url 'searchAddress' %}">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="ค้นหาชื่อโรงแรม" aria-label="Search" name="searchAddress">
+                        <button class="btn btn-outline-primary d-flex align-items-center" type="submit">
+                            <i class="bi bi-search me-1"></i>
+                            <b>ค้นหา</b>
+                        </button>
+                        
                     </form>
+
+                    &nbsp;
+
+                    <form class="d-flex">
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi bi-heart-fill me-1" style="color: red;"></i>
+                            โรงแรมโดนใจ
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        </button>
+                    </form>
+
                 </div>
             </div>
         </nav>
