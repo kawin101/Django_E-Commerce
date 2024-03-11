@@ -49,6 +49,7 @@ def login_user(request):
     else:
         return render(request, 'login.html', {})
 
+
 def logout_user(request):
     logout(request)
     messages.success(request, ("You have been logged out...Thanks for stopping by..."))
@@ -73,3 +74,5 @@ def register_user(request):
             return redirect('register')
     else:
         return render(request, 'register.html', {'form':form})
+
+
