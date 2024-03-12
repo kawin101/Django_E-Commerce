@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- Header-->
+<header class="bg-primary py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <br></br>
+            <h1 class="display-4 fw-bolder">คุณกำลังค้นหา "{{ searchAddress }}"</h1>
+            <p class="lead fw-normal text-white-50 mb-0">กรุณาพิมพ์ลงในช่องค้นหาด้วยชื่อโรมแรม...</p>
+        </div>
+    </div>
+</header>
+
 <div class="container mt-5">
     <div class="text-center">
         {% if searchAddress %}
             {% if products %}
-                <h1 class="mb-4">คุณกำลังค้นหา "{{ searchAddress }}"</h1>
                 <div class="list-group">
                     {% for product in products %}
                         {% comment %} <a href="{% url 'product' product.id %}" class="alert alert-success" role="alert">{{ product }}</a> {% endcomment %}
@@ -55,20 +65,26 @@
                                             </div><!-- end col -->
                                         </div><!-- end blog-list -->
                                     </div><!-- end page-wrapper -->
-                                    <hr class="invis">
                                 </div><!-- end col -->
                             </div><!-- end row -->
                         </div><!-- end container -->
+                        <br></br>
                     {% endfor %}
                 </div>
             {% else %}
                 <br></br>
+                <br></br>
+                <br></br>
+
                 <div class="alert alert-warning" role="alert">
                     <h1 class="mb-4">คุณกำลังค้นหา "{{ searchAddress }}" ไม่มีข้อมูลในระบบ!</h1>
                 </div>
             {% endif %}
         {% else %}
             <br></br>
+            <br></br>
+            <br></br>
+
             <div class="alert alert-danger" role="alert">
                 <h1 class="mb-4">กรุณาใส่ชื่อโรงแรมก่อนกดปุ่มค้นหา!</h1>
             </div>
@@ -83,5 +99,11 @@
 <br></br>
 <br></br>
 <br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
 
 {% endblock %}

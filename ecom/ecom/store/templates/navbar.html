@@ -1,6 +1,5 @@
-
 <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="{% url 'home' %}">โรงแรมสุนัขเข้าพักได้</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -8,15 +7,17 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">หน้าหลัก</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">ติดต่อ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/adminpanel/dashboard">แอดมิน</a></li>
+
                         {% comment %} <li class="nav-item"><a class="nav-link" href="http://localhost/Numwan/map_api/map_api/map/map_saveall.php">map_saveall</a></li> {% endcomment %}
 
 
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a></li>
                     {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a></li> {% endcomment %}
 
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">สมัครสมาชิก</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">สมัครสมาชิก</a></li> {% endcomment %}
                     {% endif %}
                         
                         {% comment %} <li class="nav-item dropdown">
@@ -67,7 +68,6 @@
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                         </button>
                     </form>
-
                 </div>
             </div>
         </nav>
