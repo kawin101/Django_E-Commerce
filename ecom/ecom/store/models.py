@@ -18,7 +18,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=50, default='', blank=True, null=True)
     last_name = models.CharField(max_length=50, default='', blank=True, null=True)
     phone = models.CharField(max_length=10, default='', blank=True, null=True)
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100, default='', blank=True, null=True)
     password = models.CharField(max_length=100)
 
     def __str__(self):

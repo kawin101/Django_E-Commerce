@@ -12,20 +12,6 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
 
 
-# ค้นหาจังหวัดด้วยชื่อ ต้องกรอก ชื่อเมื่อค้นหาทุกจังหวัด เสียเวลา วนลูป id จังหวัดรวดเร็วกว่า
-# def category(request, foo):
-#     # Replace Hyphens with Spaces
-#     foo = foo.replace('-', ' ')
-#     # Grab the category from the url
-#     try:
-#         # Look Up The Category
-#         category = Category.objects.get(name=foo)
-#         products = Product.objects.filter(category=category)
-#         return render(request, 'category.html', {'products':products, 'category':category})
-#     except:
-#         messages.success(request, ("That Category Doesn't Exist..."))
-#         return redirect('home')
-
 # 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
 @login_required(login_url='login')  
 # ค้นหาด้วยชื่อโรงแรมและแสดงการค้นหาล่าสุด 1 โรงแรม
@@ -78,7 +64,7 @@ def searchCategory(request, cat_id):
     })
 
 # 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
-@login_required(login_url='login')  
+@login_required(login_url='login')
 def product(request, pk):
     product = Product.objects.get(id=pk)
 
@@ -89,7 +75,7 @@ def product(request, pk):
         })
 
 # 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
-@login_required(login_url='login')  
+@login_required(login_url='login') 
 def home(request):
     # เรียงลำดับตามคีย์หลักตามลำดับจากมากไปน้อย
     products = Product.objects.all().order_by('-pk')
@@ -134,27 +120,37 @@ def home(request):
 def about(request):
     return render(request, 'about.html', {})
 
+'''
+ระบบป้องกันผู้ใช้งานไม่ให้สามารถเข้าสู่ระบบแอดมินหลังบ้านมาแก้ไขข้อมูลได้โดยตรง
+'''
 def login_user(request):
-    # แสดงข้อมูลจังหวัดทั้งหมด เมื่ออยู่หน้า เข้าสู่ระบบ
     categories = Category.objects.all()
+    
+    # ตรวจสอบว่าผู้ใช้เคยเข้าสู่ระบบแล้วหรือไม่
+    if request.user.is_authenticated:
+        messages.error(request, ("ท่านเข้าสู่ระบบอยู่แล้ว...กรุณาออกจากระบบก่อนครับ!"))
+        return redirect('home')
 
+    #
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, ("ยินดีต้อนรับ ท่านได้เข้าสู่ระบบแล้วเรียบร้อย!"))
-            return redirect('home')
+            if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
+                return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
+            else:
+                messages.success(request, ("ยินดีต้อนรับ ท่านได้เข้าสู่ระบบแล้วเรียบร้อย!"))
+                return redirect('home')  # ถ้าไม่ใช่ admin ให้เปลี่ยนเส้นทางไปหน้าหลัก
         else:
-            messages.success(request, ("เกิดข้อผิดพลาดกรุณาลองอีกครั้ง..."))
+            messages.error(request, ("เกิดข้อผิดพลาดกรุณาลองอีกครั้ง..."))
             return redirect('login')
-
     else:
         return render(request, 'login.html', {
             'categories': categories,
         })
- 
+
 def logout_user(request):
     logout(request)
     messages.success(request, ("ท่านได้ออกจากระบบแล้วเรียบร้อย...ขอบคุณที่ใช้งานเว็บไซต์ครับ..."))
@@ -185,4 +181,46 @@ def register_user(request):
             'categories': categories,
         })
 
+'''
+โค้ดตัวต้นฉบับ ฟังก์ชัน เข้าสู่ระบบ
+'''
 
+# def login_user(request):
+#     # แสดงข้อมูลจังหวัดทั้งหมด เมื่ออยู่หน้า เข้าสู่ระบบ
+#     categories = Category.objects.all()
+
+#     if request.method == "POST":
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
+#             messages.success(request, ("ยินดีต้อนรับ ท่านได้เข้าสู่ระบบแล้วเรียบร้อย!"))
+#             return redirect('home')
+#         else:
+#             messages.success(request, ("เกิดข้อผิดพลาดกรุณาลองอีกครั้ง..."))
+#             return redirect('login')
+
+#     else:
+#         return render(request, 'login.html', {
+#             'categories': categories,
+#         })
+
+'''
+ฟังก์ชันค้นหา จังหวัด สำรอง อยู่ในช่วงทดสอบ
+ความต้องการ ให้แสดงข้อมูลการค้นหาล่าสุด ทั้งหมดของผู้ใช้งาน
+**ทำอะไรได้บ้างแล้วตอนนี้? แสดงข้อมูลการค้นหาล่าสุด 1 สถานที่
+'''
+# ค้นหาจังหวัดด้วยชื่อ ต้องกรอก ชื่อเมื่อค้นหาทุกจังหวัด เสียเวลา วนลูป id จังหวัดรวดเร็วกว่า
+# def category(request, foo):
+#     # Replace Hyphens with Spaces
+#     foo = foo.replace('-', ' ')
+#     # Grab the category from the url
+#     try:
+#         # Look Up The Category
+#         category = Category.objects.get(name=foo)
+#         products = Product.objects.filter(category=category)
+#         return render(request, 'category.html', {'products':products, 'category':category})
+#     except:
+#         messages.success(request, ("That Category Doesn't Exist..."))
+#         return redirect('home')

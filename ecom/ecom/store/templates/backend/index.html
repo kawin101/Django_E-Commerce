@@ -1,31 +1,33 @@
+{% load static %}
+
 <!DOCTYPE html>
 <!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
 
-        <title>Writer Panel</title>
+        <title>แผงควบคุมผู้ดูแลระบบ</title>
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
         <!-- Stylesheets -->
         <!-- Bootstrap is included in its original form, unaltered -->
-        <link rel="stylesheet" href="backend/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'backend/css/bootstrap.min.css' %}">
 
         <!-- Related styles of various icon packs and plugins -->
-        <link rel="stylesheet" href="backend/css/plugins.css">
+        <link rel="stylesheet" href="{% static 'backend/css/plugins.css' %}">
 
         <!-- The main stylesheet of this template. All Bootstrap overwrites are defined in here -->
-        <link rel="stylesheet" href="backend/css/main.css">
+        <link rel="stylesheet" href="{% static 'backend/css/main.css' %}">
 
         <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
 
         <!-- The themes stylesheet of this template (for using specific theme color in individual elements - must included last) -->
-        <link rel="stylesheet" href="backend/css/themes.css">
+        <link rel="stylesheet" href="{% static 'backend/css/themes.css' %}">
         <!-- END Stylesheets -->
 
         <!-- Modernizr (browser feature detection library) -->
-        <script src="backend/js/vendor/modernizr.min.js"></script>
+        <script src="{% static 'backend/js/vendor/modernizr.min.js' %}"></script>
     </head>
     <body>
         <div id="page-wrapper">
@@ -38,7 +40,7 @@
                         <div class="sidebar-content">
                             <!-- Brand -->
                             <a href="index.html" class="sidebar-brand">
-                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>Writer</strong>Panel</span>
+                                <i class="gi gi-flash"></i><span class="sidebar-nav-mini-hide"><strong>แผงควบคุม</strong></span>
                             </a>
                             <!-- END Brand -->
 
@@ -46,16 +48,20 @@
                             <div class="sidebar-section sidebar-user clearfix sidebar-nav-mini-hide">
                                 <div class="sidebar-user-avatar">
                                     <a href="#">
-                                        <img src="backend/img/placeholders/avatars/avatar2.jpg" alt="avatar">
+                                        <img src="{% static 'backend/img/placeholders/avatars/avatar2.jpg' %}" alt="avatar">
                                     </a>
                                 </div>
-                                <div class="sidebar-user-name">ชื่อนักเขียน</div>
+                                <div class="sidebar-user-name">{{ current_user }}</div>
                             </div>
                             <!-- END User Info -->
                             <!-- Sidebar Navigation -->
                             <ul class="sidebar-nav">
                                 <li>
-                                    <a href="index.html" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">ภาพรวม</span></a>
+                                    <a href="#" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">หน้าหลัก</span></a>
+                                </li>
+                                <br>
+                                <li>
+                                    <a href="{% url 'logout' %}" class=" active"><i class="gi gi-stopwatch sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">ออกจากระบบ</span></a>
                                 </li>
                                 <li class="sidebar-header">
                                     <span class="sidebar-header-options clearfix"><a href="javascript:void(0)" data-toggle="tooltip" title="Quick Settings"><i class="gi gi-settings"></i></a></span>
@@ -100,20 +106,21 @@
                             <!-- END Main Sidebar Toggle Button -->
                         </ul>
                         <!-- END Left Header Navigation -->
+
                         <!-- Search Form -->
-                        <form action="page_ready_search_results.html" method="post" class="navbar-form-custom">
+                        {% comment %} <form action="page_ready_search_results.html" method="post" class="navbar-form-custom">
                             <div class="form-group">
                                 <input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
                             </div>
-                        </form>
+                        </form> {% endcomment %}
                         <!-- END Search Form -->
 
                         <!-- Right Header Navigation -->
-                        <ul class="nav navbar-nav-custom pull-right">
+                        {% comment %} <ul class="nav navbar-nav-custom pull-right">
                             <!-- User Dropdown -->
                             <li class="dropdown">
                                 <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="backend/img/placeholders/avatars/avatar2.jpg" alt="avatar"> <i class="fa fa-angle-down"></i>
+                                    <img src="{% static 'backend/img/placeholders/avatars/avatar2.jpg' %}" alt="avatar"> <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
                                     <li class="dropdown-header text-center">บัญชีผู้ใช้</li>
@@ -130,7 +137,7 @@
                                 </ul>
                             </li>
                             <!-- END User Dropdown -->
-                        </ul>
+                        </ul> {% endcomment %}
                         <!-- END Right Header Navigation -->
                     </header>
                     <!-- END Header -->
@@ -147,8 +154,8 @@
                                             <i class="fa fa-file-text"></i>
                                         </div>
                                         <h3 class="widget-content text-right animation-pullDown">
-                                            เขียน<strong>บทความ</strong><br>
-                                            <small>ของคุณที่นี่!</small>
+                                            <strong>เพิ่มข้อมูลโรงแรม</strong><br>
+                                            <small>ด้วยตนเอง!</small>
                                         </h3>
                                     </div>
                                 </a>
@@ -162,28 +169,47 @@
                                             <i class="gi gi-table"></i>
                                         </div>
                                         <h3 class="widget-content text-right animation-pullDown">
-                                            จำนวน <strong>50</strong><br>
-                                            <small>บทความ</small>
+                                            <strong> {{ productCount }} </strong>โรงแรม<br>
+                                            <small>จำนวนโรงแรมทั้งหมด</small>
                                         </h3>
                                     </div>
                                 </a>
                                 <!-- END Widget -->
                             </div>
-                            <div class="col-sm-6 col-lg-6">
+                            
+                            <div class="col-sm-6 col-lg-3">
                                 <!-- Widget -->
                                 <a href="#" class="widget widget-hover-effect1">
                                     <div class="widget-simple">
-                                        <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
-                                            <i class="fa fa-heart"></i>
+                                        <div class="widget-icon pull-left bg-primary animation-fadeIn">
+                                            <i class="fa fa-download"></i>
                                         </div>
                                         <h3 class="widget-content text-right animation-pullDown">
-                                            +10,000 <strong>Views</strong>
-                                            <small>ยอดเข้าชมทั้งหมด</small>
+                                            <strong>นำเข้าไฟล์ข้อมูล</strong>
+                                            <small>ระบบฐานข้อมูลโรงแรม</small>
                                         </h3>
                                     </div>
                                 </a>
                                 <!-- END Widget -->
                             </div>
+                            
+                            <div class="col-sm-6 col-lg-3">
+                                <!-- Widget -->
+                                <a href="{% url 'admin:index' %}" class="widget widget-hover-effect1">
+                                    <div class="widget-simple">
+                                        <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
+                                            <i class="fa fa-database"></i>
+                                        </div>
+                                        <h3 class="widget-content text-right animation-pullDown">
+                                            <strong>จัดการฐานข้อมูล</strong>
+                                            <small>โรงแรม</small>
+                                        </h3>
+                                    </div>
+                                </a>
+                                <!-- END Widget -->
+                            </div>
+
+
                         </div>
                         <!-- END Mini Top Stats Row -->
                         <!-- ตารางบทความ -->
@@ -200,29 +226,91 @@
                             <!--Content -->
                             <table id="ecom-products" class="table table-bordered table-striped table-vcenter">
                                 <thead>
+                                    <!-- ชื่อหัวตาราง -->
                                     <tr>
-                                        <th class="text-center" style="width: 70px;">รหัส</th>
-                                        <th>ภาพปก</th>
-                                        <th class="text-right hidden-xs">ชื่อบทความ</th>
-                                        <th class="hidden-xs">ยอดเข้าชม (View)</th>
-                                        <th class="hidden-xs text-center">วันที่เขียนบทความ</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center" style="width: 70px;">ลำดับ</th>
+                                        <th class="text-right hidden-xs">ชื่อโรงแรม</th>
+                                        <th class="text-right hidden-xs">ที่อยู่</th>
+                                        <th class="hidden-xs">เบอร์โทร</th>
+                                        {% comment %} <th class="text-right hidden-xs">ละติจูด</th> {% endcomment %}
+                                        {% comment %} <th class="text-right hidden-xs">ลองติจูด</th> {% endcomment %}
+                                        <th>รูปภาพ</th>
+                                        <th class="text-right hidden-xs">จังหวัด</th>
+                                        <th class="text-right hidden-xs">ตำแหน่งบนแผนที่</th>
+                                        <th class="text-right hidden-xs">เว็บไซต์โรงแรม</th>
+                                        <th class="hidden-xs text-center">วันที่</th>
+                                        <th class="text-center">แก้ไข/ลบ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for product in products %}
+                                    <!-- ข้อมูลภายในตาราง -->
                                     <tr>
-                                        <td class="text-center">1</td>
-                                        <td>Image</td>
-                                        <td class="text-right hidden-xs"><strong>ท่องเที่ยว</strong></td>
-                                        <td class="text-center">5,000</td>
-                                        <td class="hidden-xs text-center">18/02/2021</td>
+                                        <!-- ลำดับ -->
+                                        <td class="text-center">{{product.id}}</td>
+                                        
+                                        <!-- ชื่อโรงแรม-->
+                                        <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                                            <strong>{{ product.name }}</strong>
+                                        </td> 
+
+                                        <!-- ที่อยู่ -->
+                                        <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                                            {{ product.address }}
+                                        </td>
+
+                                        <!-- เบอร์โทรติดต่อ -->
+                                        <td class="text-center">{{product.phone_number}}</td>
+
+                                        <!-- ละติจูด -->
+                                        {% comment %} <td class="text-right hidden-xs">{{product.latitude}}</td> {% endcomment %}
+                                        <!-- ลองติจูด -->
+                                        {% comment %} <td class="text-right hidden-xs">{{product.longitude}}</td> {% endcomment %}
+
+                                        <!-- รูปภาพโรงแรม -->
+                                        <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                                            <img src="{{ product.first_photo_url }}" alt="" style="width: 60px; height: 50px;">
+                                        </td>
+                                        
+                                        <!-- จังหวัด -->
+                                        <td class="text-right hidden-xs"><strong>{{product.category}}</strong></td>
+
+                                        <!-- ตำแหน่งบนแผนที่ -->
+                                        <td class="text-right hidden-xs" style="max-width: 15ch;">
+                                            <a href="{{ product.map_url }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
+                                                {{ product.map_url }}
+                                            </a>
+                                        </td>
+
+                                        {% comment %} <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                                            {{ product.map_url }}
+                                        </td> {% endcomment %}
+                                        
+                                        
+                                        {% if product.website != "ไม่ทราบ" %}
+                                            <td class="text-right hidden-xs" style="max-width: 15ch;">
+                                                <a href="{{ product.website }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
+                                                    {{ product.website }}
+                                                </a>
+                                            </td>
+                                        {% else %}
+                                            <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                                                {{ product.website }}
+                                            </td> 
+                                        {% endif %}
+                                        
+                                        <!-- วันที่ -->
+                                        <td class="hidden-xs text-center">{{product.uploadDate}}</td>
+
+                                        <!-- แก้ไข/ลบ -->
                                         <td class="text-center">
                                             <div class="btn-group btn-group-xs">
-                                                <a href="#" data-toggle="tooltip" title="Edit" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                                                <a href="#" data-toggle="tooltip" title="Delete" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                                                <a href="#" data-toggle="tooltip" title="แก้ไข" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                                                <a href="#" data-toggle="tooltip" title="ลบ" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                                             </div>
                                         </td>
                                     </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                             <!-- END All Products Content -->
@@ -238,12 +326,12 @@
         <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
         <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
         <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
-        <script src="backend/js/vendor/jquery.min.js"></script>
-        <script src="backend/js/vendor/bootstrap.min.js"></script>
-        <script src="backend/js/plugins.js"></script>
-        <script src="backend/js/app.js"></script>
+        <script src="{% static 'backend/js/vendor/jquery.min.js' %}"></script>
+        <script src="{% static 'backend/js/vendor/bootstrap.min.js' %}"></script>
+        <script src="{% static 'backend/js/plugins.js' %}"></script>
+        <script src="{% static 'backend/js/app.js' %}"></script>
 
-        <script src="backend/js/pages/ecomProducts.js"></script>
+        <script src="{% static 'backend/js/pages/ecomProducts.js' %}"></script>
         <script>$(function(){ EcomProducts.init(); });</script>
     </body>
 </html>
