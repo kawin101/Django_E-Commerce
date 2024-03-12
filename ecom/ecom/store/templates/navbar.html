@@ -7,7 +7,10 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">หน้าหลัก</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">ติดต่อ</a></li>
-                    
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'panel' %}">แอดมิน</a></li>
+                        {% endif %}
+
                     {% if user.is_authenticated %}
                         <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a></li>
                     {% else %}
