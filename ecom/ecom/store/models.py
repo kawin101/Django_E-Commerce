@@ -15,11 +15,11 @@ class Category(models.Model):
 
 # Customers
 class Customer(models.Model):
-    first_name = models.CharField(max_length=50, default='', blank=True, null=True)
-    last_name = models.CharField(max_length=50, default='', blank=True, null=True)
+    first_name = models.CharField(max_length=255, default='', blank=True, null=True)
+    last_name = models.CharField(max_length=255, default='', blank=True, null=True)
     phone = models.CharField(max_length=10, default='', blank=True, null=True)
-    email = models.EmailField(max_length=100, default='', blank=True, null=True)
-    password = models.CharField(max_length=100)
+    email = models.EmailField(max_length=255, default='', blank=True, null=True)
+    password = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -27,19 +27,33 @@ class Customer(models.Model):
 # โรงแรมทั้งหมด
 # All of our Products
 class Product(models.Model):
-    # ชื่อฐานข้อมูล myhotels
+    # **ชื่อฐานข้อมูล myhotels
+
+    # รหัสตำแหน่งโรงแรม
     place_id = models.CharField(max_length=255)
+    # ชื่อโรงแรม
     name = models.CharField(max_length=255)
+    # ที่อยู่
     address = models.CharField(max_length=255, default='', blank=True, null=True)
+    # เบอร์โทร
     phone_number = models.CharField(max_length=12, default='', blank=True, null=True)
+    # ละติจูด
     latitude = models.CharField(max_length=255)
+    # ลองติจูด
     longitude = models.CharField(max_length=255)
+    # รูปภาพโรงแรมแบบ URL
     first_photo_url = models.CharField(max_length=800, default='', blank=True, null=True)
-    # Province
+    # จังหวัด
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    # ตำแหน่งบนแผนที่
     map_url = models.CharField(max_length=800, default='', blank=True, null=True)
+    # เว็บไซต์โรงแรม
     website = models.CharField(max_length=800, default='', blank=True, null=True)
+    # วันที่
     uploadDate = models.DateField(auto_now_add=True)
+    # รูปภาพจากในเครื่องคอมพิวเตอร์
+    image = models.ImageField(upload_to='uploads/product/', blank=True, null=True)
+    
     '''
     ค่าเริ่มต้น = 0
     ทศนิยม 2 ตำแหน่ง = 0.99 
@@ -68,4 +82,3 @@ class Order(models.Model):
 
     def __str__(self):
         return self.product
-

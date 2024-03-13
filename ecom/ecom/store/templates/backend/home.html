@@ -1,0 +1,111 @@
+{% extends "backend/base.html" %}
+
+{% block content %}
+
+<!--
+    หน้าแสดงข้อมูลทั้งหมด โรงแรมทั้งหมด และแถบเมนู ช่องค้นหา 
+    เช่น ลำดับ ชื่อโรงแรม ที่อยู่ เบอร์โทร รูปภาพ จังหวัด วันที่ แก้ไข/ลบ
+-->
+
+<!-- ตารางบทความ -->
+<div class="block full">
+    <!-- All Title -->
+    <div class="block-title">
+        <div class="block-options pull-right">
+            <a href="javascript:void(0)" class="btn btn-alt btn-sm btn-default" data-toggle="tooltip" title="Settings"><i class="fa fa-cog"></i></a>
+        </div>
+        <h2><strong>โรงแรมทั้งหมด</strong></h2>
+    </div>
+    <!-- Title -->
+
+    <!--Content -->
+    <table id="ecom-products" class="table table-bordered table-striped table-vcenter">
+        <thead>
+            <!-- ชื่อหัวตาราง -->
+            <tr>
+                <th class="text-center" style="width: 70px;">ลำดับ</th>
+                <th class="text-right hidden-xs">ชื่อโรงแรม</th>
+                <th class="text-right hidden-xs">ที่อยู่</th>
+                <th class="hidden-xs">เบอร์โทร</th>
+                {% comment %} <th class="text-right hidden-xs">ละติจูด</th> {% endcomment %}
+                {% comment %} <th class="text-right hidden-xs">ลองติจูด</th> {% endcomment %}
+                <th>รูปภาพ</th>
+                <th class="text-right hidden-xs">จังหวัด</th>
+                {% comment %} <th class="text-right hidden-xs">ตำแหน่งบนแผนที่</th> {% endcomment %}
+                {% comment %} <th class="text-right hidden-xs">เว็บไซต์โรงแรม</th> {% endcomment %}
+                <th class="hidden-xs text-center">วันที่</th>
+                <th class="text-center">แก้ไข/ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <!-- ข้อมูลภายในตาราง -->
+            <tr>
+                <!-- ลำดับ -->
+                <td class="text-center">{{ forloop.counter }}</td>
+                
+                <!-- ชื่อโรงแรม-->
+                <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                    <strong>{{ product.name }}</strong>
+                </td> 
+
+                <!-- ที่อยู่ -->
+                <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                    {{ product.address }}
+                </td>
+
+                <!-- เบอร์โทรติดต่อ -->
+                <td class="text-center">{{product.phone_number}}</td>
+
+                <!-- ละติจูด -->
+                {% comment %} <td class="text-right hidden-xs">{{product.latitude}}</td> {% endcomment %}
+                <!-- ลองติจูด -->
+                {% comment %} <td class="text-right hidden-xs">{{product.longitude}}</td> {% endcomment %}
+
+                <!-- รูปภาพโรงแรม -->
+                <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                    <img src="{{ product.first_photo_url }}" alt="" style="width: 60px; height: 50px;">
+                </td>
+                
+                <!-- จังหวัด -->
+                <td class="text-right hidden-xs"><strong>{{product.category}}</strong></td>
+
+                <!-- ตำแหน่งบนแผนที่ -->
+                {% comment %} <td class="text-right hidden-xs" style="max-width: 15ch;">
+                    <a href="{{ product.map_url }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
+                        {{ product.map_url }}
+                    </a>
+                </td>  {% endcomment %}
+
+                <!-- เว็บไซต์โรงแรม -->
+                {% comment %} {% if product.website != "ไม่ทราบ" %}
+                    <td class="text-right hidden-xs" style="max-width: 15ch;">
+                        <a href="{{ product.website }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
+                            {{ product.website|slice:":69" }}
+                        </a>
+                    </td>
+                {% else %}
+                    <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
+                        {{ product.website }}
+                    </td> 
+                {% endif %} {% endcomment %}
+                
+                <!-- วันที่ -->
+                <td class="hidden-xs text-center">{{product.uploadDate}}</td>
+
+                <!-- แก้ไข/ลบ -->
+                <td class="text-center">
+                    <div class="btn-group btn-group-xs">
+                        <a href="#" data-toggle="tooltip" title="แก้ไข" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                        <a href="#" data-toggle="tooltip" title="ลบ" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- END All Products Content -->
+</div>
+<!-- END ตารางบทความ -->
+
+{% endblock %}

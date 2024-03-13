@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.contrib.auth.decorators import login_required
 
 
-# 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 # ค้นหาด้วยชื่อโรงแรมและแสดงการค้นหาล่าสุด 1 โรงแรม
 def search_view(request):
@@ -28,9 +28,9 @@ def search_view(request):
         form = SearchForm()
         products = []
 
-    return render(request, 'search.html', {'form': form, 'products': products, 'recent_searches': recent_searches})
+    return render(request, 'frontend/search.html', {'form': form, 'products': products, 'recent_searches': recent_searches})
 
-# 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 # ฟังก์ชันค้นหาโรงแรมด้วยชื่อ เช่น "ก" จะแสดงชื่อโรงแรมทั้งหมดที่มีตัวอักษรด้วย "ก"
 def searchAddress(request):
@@ -41,15 +41,15 @@ def searchAddress(request):
         # ค้นหาข้อมูล ด้วย ชื่อโรงแรม 
         products = Product.objects.filter(name__contains=searchAddress)
 
-        return render(request, "searchAddress.html", { 
+        return render(request, "frontend/searchAddress.html", { 
             'searchAddress': searchAddress,
             'products': products,
             'categories': categories,
         })
     else:
-        return render(request, "searchAddress.html", {'categories': categories})
+        return render(request, "frontend/searchAddress.html", {'categories': categories})
 
-# 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 def searchCategory(request, cat_id):
     products = Product.objects.filter(category_id = cat_id)
@@ -57,24 +57,24 @@ def searchCategory(request, cat_id):
     categoryName = Category.objects.get(id=cat_id)
     categories = Category.objects.all()
 
-    return render(request, "category.html", {
+    return render(request, "frontend/category.html", {
         'products': products,
         'categories': categories,
         'categoryName': categoryName,
     })
 
-# 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')
 def product(request, pk):
     product = Product.objects.get(id=pk)
 
     categories = Category.objects.all()
-    return render(request, 'product.html', {
+    return render(request, 'frontend/product.html', {
         'product': product,
         'categories': categories,
         })
 
-# 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def home(request):
     # เรียงลำดับตามคีย์หลักตามลำดับจากมากไปน้อย
@@ -109,16 +109,16 @@ def home(request):
     except (EmptyPage, InvalidPage):
         product_per_page = paginator.get_page(paginator.num_pages)
 
-    return render(request, 'home.html', {
+    return render(request, 'frontend/home.html', {
         'products':product_per_page,
         'categories': categories,
         'latest': latest,
         })
 
-# 'login' คือชื่อของ URL pattern สำหรับหน้า login ของคุณ
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 def about(request):
-    return render(request, 'about.html', {})
+    return render(request, 'frontend/about.html', {})
 
 '''
 ระบบป้องกันผู้ใช้งานไม่ให้สามารถเข้าสู่ระบบแอดมินหลังบ้านมาแก้ไขข้อมูลได้โดยตรง
@@ -147,7 +147,7 @@ def login_user(request):
             messages.error(request, ("เกิดข้อผิดพลาดกรุณาลองอีกครั้ง..."))
             return redirect('login')
     else:
-        return render(request, 'login.html', {
+        return render(request, 'frontend/login.html', {
             'categories': categories,
         })
 
@@ -176,7 +176,7 @@ def register_user(request):
             messages.success(request, ("เกิดข้อผิดพลาด! เกิดปัญหาในการสมัครสมาชิก กรุณาลองใหม่อีกครั้ง......"))
             return redirect('register')
     else:
-        return render(request, 'register.html', {
+        return render(request, 'frontend/register.html', {
             'form':form,
             'categories': categories,
         })
