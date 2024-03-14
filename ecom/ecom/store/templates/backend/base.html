@@ -15,7 +15,10 @@
 
         <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0">
-        <!-- Stylesheets -->
+        
+        <!-- 
+            Stylesheets | *****Bootstrap เวอร์ชัน 3.3.7******
+        -->
         <!-- Bootstrap is included in its original form, unaltered -->
         <link rel="stylesheet" href="{% static 'backend/css/bootstrap.min.css' %}">
 
@@ -56,7 +59,7 @@
                                         <img src="{% static 'backend/img/placeholders/avatars/avatar2.jpg' %}" alt="avatar">
                                     </a>
                                 </div>
-                                <div class="sidebar-user-name">{{ current_user }}</div>
+                                <div class="sidebar-user-name">{{ writer }}</div>
                             </div>
                             <!-- END User Info -->
                             <!-- Sidebar Navigation -->
@@ -64,6 +67,12 @@
                                 <li>
                                     <a href="{% url 'home' %}" class=" active"><i class="gi gi-home sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">กลับสู่หน้าหลัก</span></a>
                                 </li>
+                                <br>
+                                {% if request.user.is_authenticated and request.user.username %}
+                                <li>
+                                    <a href="{% url 'searchWriter' request.user.username %} " class=" active" target="_blank"><i class="gi gi-list sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">ดูข้อมูลโรงแรมทั้งหมด</span></a>
+                                </li>
+                                {% endif %}
                                 <br>
                                 <li>
                                     <a href="{% url 'logout' %}" class=" active"><i class="gi gi-exit sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">ออกจากระบบ</span></a>
@@ -184,7 +193,7 @@
                             
                             <div class="col-sm-6 col-lg-3">
                                 <!-- Widget -->
-                                <a href="http://localhost/Numwan/map_api/map_api/map/map_saveall.php" class="widget widget-hover-effect1">
+                                <a href="http://localhost/Numwan/map_api/map_api/map/map_saveall.php" class="widget widget-hover-effect1" target="_blank">
                                     <div class="widget-simple">
                                         <div class="widget-icon pull-left bg-primary animation-fadeIn">
                                             <i class="fa fa-download"></i>
@@ -200,7 +209,7 @@
                             
                             <div class="col-sm-6 col-lg-3">
                                 <!-- Widget -->
-                                <a href="{% url 'admin:index' %}" class="widget widget-hover-effect1">
+                                <a href="{% url 'admin:index' %}" class="widget widget-hover-effect1" target="_blank">
                                     <div class="widget-simple">
                                         <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
                                             <i class="fa fa-database"></i>
@@ -230,9 +239,14 @@
             <!-- END Page Container -->
         </div>
         <!-- END Page Wrapper -->
+        
         <!-- Scroll to top link, initialized in js/app.js - scrollToTop() -->
         <a href="#" id="to-top"><i class="fa fa-angle-double-up"></i></a>
-        <!-- jQuery, Bootstrap.js, jQuery plugins and Custom JS code -->
+
+        <!-- 
+            *****Bootstrap เวอร์ชัน 3.3.7******
+            jQuery, Bootstrap.js, jQuery plugins and Custom JS code 
+        -->
         <script src="{% static 'backend/js/vendor/jquery.min.js' %}"></script>
         <script src="{% static 'backend/js/vendor/bootstrap.min.js' %}"></script>
         <script src="{% static 'backend/js/plugins.js' %}"></script>

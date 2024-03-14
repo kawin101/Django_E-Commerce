@@ -5,48 +5,114 @@
 <!--
     หน้าเพิ่มข้อมูลโรงแรม ด้วยตนเอง!
 -->
-
 <div class="block">
     <!-- Basic Form Elements Title -->
     <div class="block-title">
         <h2><strong>เพิ่มข้อมูลโรงแรม</strong></h2>
     </div>
     <!-- END Form Elements Title -->
+    
+    <!--
+        ส่วนของการแสดงข้อความแจ้งเตือนจากระบบกลับไปหาผู้ดูแลระบบ
+    -->
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissable fade in" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
     <!-- Basic Form Elements Content -->
-    <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" >
+    <form action="{% url 'insertData' %}" method="post" enctype="multipart/form-data" class="form-horizontal form-bordered" >
+        <!--
+        {% csrf_token %} เป็นคำสั่งใน Django templates เพื่อเพิ่มการป้องกันการโจมตี CSRF 
+        โดยสร้างและแสดง token ของ CSRF ในหน้าเว็บของคุณ มักใช้ในฟอร์มและแสดงผลเมื่อจะส่งข้อมูลแบบ POST 
+        หรือแบบอื่น ๆ ที่ต้องการการยืนยันความถูกต้องที่มาจากเซิร์ฟเวอร์ CSRF (Cross-Site Request Forgery) 
+        เป็นเทคนิคที่ผู้ไม่ประสงค์ดีสามารถส่งคำขอที่ไม่พึงประสงค์ไปยังเซิร์ฟเวอร์จากเว็บไซต์อื่น ๆ 
+        ทำให้ผู้ไม่ประสงค์ดีสามารถทำให้ผู้ใช้ทำสิ่งต่าง ๆ ได้การใส่ {% csrf_token %} 
+        ในฟอร์มของ Django เป็นวิธีการป้องกัน CSRF โดยอัตโนมัติ 
+        ทำให้เรามั่นใจได้ว่าข้อมูลที่ส่งไปยังเซิร์ฟเวอร์มาจากแหล่งที่เชื่อถือได้และไม่มีการประมวลผลโดยอัตโนมัติที่เกิดขึ้นได้.
+        -->
+        {% csrf_token %}
         <div class="form-group">
-            <div class="col-md-6">
-                <input type="text" id="name" name="name" class="form-control" placeholder="ชื่อบทความ">
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <textarea type="text" name="place_id" rows="1" class="form-control" placeholder="รหัสตำแหน่งโรงแรม | place_id"></textarea>
+                </div>
             </div>
+            <div class="col-md-6">
+                <input type="text" id="name" name="name" class="form-control" placeholder="ชื่อโรงแรม | name">
+            </div>
+
+            <!-- จังหวัดทั้งหมด -->
             <div class="col-md-6">
                 <select name="category" class="select-chosen" style="width: 250px;">
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}  
                 </select>
             </div>
+
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <textarea type="text" name="description" rows="2" class="form-control" placeholder="รายละเอียดบทความ"></textarea>
+                <textarea type="text" name="address" rows="2" class="form-control" placeholder="ที่อยู่ | address"></textarea>
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-12">
-                <textarea type="text" name="content" rows="5" class="form-control" placeholder="เนื้อหาบทความ"></textarea>
+                <textarea type="text" name="phone_number" rows="1" class="form-control" placeholder="เบอร์โทร | phone_number"></textarea>
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-12">
-                <input type="file" name="image" class="form-control" placeholder="ภาพปก">
+                <textarea type="text" name="latitude" rows="1" class="form-control" placeholder="ละติจูด | latitude"></textarea>
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-12">
-                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-angle-right"></i>บันทึก</button>
+                <textarea type="text" name="longitude" rows="1" class="form-control" placeholder="ลองติจูด | longitude"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <textarea type="text" name="first_photo_url" rows="2" class="form-control" placeholder="รูปภาพโรงแรมแบบ URL | first_photo_url"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <textarea type="text" name="website" rows="2" class="form-control" placeholder="ตำแหน่งบนแผนที่แบบ URL | website"></textarea>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-12">
+                <textarea type="text" name="map_url" rows="2" class="form-control" placeholder="เว็บไซต์โรงแรมแบบ URL | map_url"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <p style="color: red;">**กรุณาอัพโหลดเป็นไฟล์รูปภาพ เช่น .png .jpg เป็นต้นครับ | รูปภาพหน้าปก รูปน้องสุนัข `image`</p>
+                <input type="file" name="image" class="form-control" placeholder="รูปภาพหน้าปก รูปน้องสุนัข | image">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> บันทึก</button>
             </div>
         </div>
     </form>
     <!-- END Basic Form Elements Content -->
 </div>
+
 {% endblock %}

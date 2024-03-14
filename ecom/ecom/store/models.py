@@ -53,7 +53,9 @@ class Product(models.Model):
     uploadDate = models.DateField(auto_now_add=True)
     # รูปภาพจากในเครื่องคอมพิวเตอร์
     image = models.ImageField(upload_to='uploads/product/', blank=True, null=True)
-    
+    # ผู้เพิ่มข้อมูลโรงแรม
+    writer = models.CharField(max_length=255)
+
     '''
     ค่าเริ่มต้น = 0
     ทศนิยม 2 ตำแหน่ง = 0.99 

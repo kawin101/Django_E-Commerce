@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
-# ค้นหาด้วยชื่อโรงแรมและแสดงการค้นหาล่าสุด 1 โรงแรม
+# ค้นหาด้วยชื่อโรงแรมและแสดงการค้นหาล่าสุด 1 โรงแรม (ตัวทดสอบ) 
 def search_view(request):
     recent_searches = []  # Implement logic to retrieve recent searches from a database
     if request.method == 'POST':
@@ -29,6 +29,20 @@ def search_view(request):
         products = []
 
     return render(request, 'frontend/search.html', {'form': form, 'products': products, 'recent_searches': recent_searches})
+
+def searchWriter(request, writer):
+    # ดึงข้อมูลผู้ใช้งานปัจจุบัน
+    products = Product.objects.filter(writer=writer)
+
+    # ดึงข้อมูลหมวดหมู่ทั้งหมด
+    categories = Category.objects.all()
+
+    return render(request, "frontend/searchWriter.html", {
+        'products': products,
+        'categories': categories,
+        'writer': writer,
+    })
+
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
@@ -52,9 +66,11 @@ def searchAddress(request):
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 def searchCategory(request, cat_id):
+    # ดึงข้อมูลไอดีแต่ละจังหวัดที่อยู่ในตางรางข้อมูลโรงแรม
     products = Product.objects.filter(category_id = cat_id)
-
+    # ดึงชื่อจังหวัดมาแสดงผล
     categoryName = Category.objects.get(id=cat_id)
+    # ดึงข้อมูลของจังหวัดทั้งหมด
     categories = Category.objects.all()
 
     return render(request, "frontend/category.html", {
@@ -173,7 +189,7 @@ def register_user(request):
             messages.success(request, ("ท่านได้สมัครสมาชิกเสร็จแล้วเรียบร้อย! ยินดีต้อนรับครับ!"))
             return redirect('home')
         else:
-            messages.success(request, ("เกิดข้อผิดพลาด! เกิดปัญหาในการสมัครสมาชิก กรุณาลองใหม่อีกครั้ง......"))
+            messages.error(request, ("เกิดข้อผิดพลาด! เกิดปัญหาในการสมัครสมาชิก กรุณาลองใหม่อีกครั้ง......"))
             return redirect('register')
     else:
         return render(request, 'frontend/register.html', {
