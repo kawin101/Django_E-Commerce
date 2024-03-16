@@ -8,7 +8,42 @@
     <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="{{ product.first_photo_url }}" class="img-fluid rounded-start" alt="...">
+          <!-- รูปภาพจาก Google Map -->
+          {% comment %} <img src="{{ product.first_photo_url }}" class="img-fluid rounded-start" alt="..."> {% endcomment %}
+          
+          <!-- แสดงรูปภาพโรงแรมจาก Google Map -->
+          {% if product.first_photo_url == "ไม่มีรูปภาพ" %}
+            <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่มีรูปภาพ" -->
+            <center style="color: red;">
+                <br></br>
+                <p>
+                    <strong>ไม่มีรูปภาพโรงแรมจาก Google Map</strong>
+                    <i class="bi bi-geo-alt"></i>
+                    <br></br>
+                </p>
+                <br></br>
+            </center>
+          {% else %}
+            <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url มีรูปภาพ" -->
+            <img src="{{ product.first_photo_url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 450px; max-width: 100%; object-fit: cover;">
+          {% endif %}
+
+          <br></br>
+          {% if product.image %}
+            <!-- รูปภาพจากการอัพโหลดไฟล์ลงเครื่อง -->
+            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+          {% else %}
+              <!-- ถ้าไม่มีข้อมูลใน product.image.url -->
+              <center style="color: red;">
+                <br></br>
+                <i class="bi bi-x-lg"></i>
+                <strong>ไม่มีรูปภาพน้องสุนัขจากการอัพโหลดไฟล์</strong>
+                <br></br>
+                <br></br>
+              </center>
+          {% endif %}
+
+
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -36,7 +71,7 @@
                 {{ product.uploadDate }}
                 <br></br>
                 
-                <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+                <a href="{% url 'home' %}" class="btn btn-primary">กลับสู่หน้าหลัก</a>
             </center>
 
           </div>

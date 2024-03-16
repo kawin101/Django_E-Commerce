@@ -12,55 +12,20 @@
         <header class="bg-primary py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
+                    <br></br>
                     <h1 class="display-4 fw-bolder">โรงแรมสุนัขเข้าพักได้</h1>
                     <p class="lead fw-normal text-white-50 mb-0">โรงแรมเป็นมิตรกับสุนัข เพื่อคนรักสุนัข</p>
+                    <br></br>
                 </div>
             </div>
         </header>
         <!-- End Header-->
         
         <!-- 
-            Carousel | Autoplaying carousels without controls
-            ม้าหมุน | เล่นภาพหมุนอัตโนมัติโดยไม่มีการควบคุม
-        -->
-        {% comment %} <section>
-            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    
-                    {% for product in products %}
-                        {% if product.image %}
-                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img src="{{ product.image.url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 450px; max-width: 100%; object-fit: cover;">
-                                <div class="carousel-caption d-none d-md-block" style="color: black;">
-                                    <h5>
-                                        <a href="{% url 'product' product.id %}" title="{{ product.name }}">{{ product.name }}</a>
-                                    </h5>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-
-                    <!-- ต้นฉบับ -->
-                    {% for product in latest %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{{ product.first_photo_url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 450px; max-width: max; object-fit: cover;">
-                            <div class="carousel-caption d-none d-md-block" style="color: black;">
-                                <h5>
-                                    <a href="{% url 'product' product.id %}" title="{{ product.name }}">{{ product.name }}</a>
-                                </h5>
-                            </div>
-                        </div>
-                    {% endfor %} 
-                </div>
-            </div>  
-        </section> {% endcomment %}
-        <!-- End Carousel -->
-
-        <!-- 
             Carousel | Autoplaying carousels 
             ม้าหมุน | เล่นภาพหมุนอัตโนมัติแบบสามารถควบคุมไปรูปภาพหน้าหลังได้
         -->
-        <section>
+        {% comment %} <section>
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     {% for product in products %}
@@ -85,23 +50,162 @@
                     <span class="visually-hidden">Next</span>
                 </button>
             </div>  
-        </section>
-        <!-- End Autoplaying carousels -->
+        </section> {% endcomment %}
 
+        {% comment %} <section>
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- วนลูปทุกโรงแรมในฐานข้อมูล-->
+                    {% for product in products %}
+                        <!-- ตรวจสอบว่ามีรูปภาพใน product.image หรือไม่ -->
+                        {% if product.image %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}"> 
+
+                                <img src="{{ product.image.url }}" class="d-block w-100" alt="{{ product.name }}" 
+                                style="max-height: 450px; max-width: 100%; object-fit: cover;">
+
+                                <div class="carousel-caption d-none d-md-block" style="color: black;">
+                                    <h5>
+                                        <a href="{% url 'product' product.id %}" title="{{ product.name }}">{{ product.name }}</a>
+                                    </h5>
+                                </div>
+                            </div>
+                        {% else %}
+                            <!-- ถ้าไม่มีรูปภาพใน product.image ให้ใช้ product.first_photo_url -->
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                
+                                <!-- ต้นแบบ  
+                                <img src="{{ product.first_photo_url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 450px; max-width: 100%; object-fit: cover;">
+                                --> 
+
+                                <!-- แสดงรูปภาพโรงแรมจาก Google Map -->
+                                {% if product.first_photo_url == "ไม่มีรูปภาพ" %}
+                                    <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่มีรูปภาพ" -->
+                                    <center style="color: red;">
+                                        <br></br>
+                                        <p>
+                                            <strong>ไม่มีรูปภาพโรงแรมจาก Google Map</strong>
+                                            <i class="bi bi-geo-alt"></i>
+                                            <br></br>
+                                            <strong>** กรุณารอ 5 วินาทีเพื่อแสดงรูปภาพโรงแรมถัดไป</strong>
+                                            <br></br>
+                                        </p>
+                                        <br></br>
+                                    </center>
+                                {% else %}
+                                    <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url มีรูปภาพ" -->
+                                    <img src="{{ product.first_photo_url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 450px; max-width: 100%; object-fit: cover;">
+                                {% endif %}
+                                
+                                
+                                <div class="carousel-caption d-none d-md-block" style="color: black;">
+                                    <h5>
+                                        <a href="{% url 'product' product.id %}" title="{{ product.name }}">{{ product.name }}</a>
+                                    </h5>
+                                </div>
+                            </div>
+                        {% endif %}
+                    <!-- END วนลูปทุกโรงแรมในฐานข้อมูล-->
+                    {% endfor %}
+                </div>
+                <!-- ตั้งค่าการเล่นอัตโนมัติ และปุ่มเลื่อน -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>  
+        </section> {% endcomment %}
         
-        <!-- Product -->
+        <!-- 
+            End Autoplaying carousels
+            ม้าหมุน | เล่นภาพหมุนอัตโนมัติแบบสามารถควบคุมไปรูปภาพหน้าหลังได้ 
+        -->
+
+        <!-- ข้อมูลโรงแรม หน้าหลัก -->
         <section class="section">
             <div class="container">
                 <div class="row">
                     
-                    <!-- 2 Column at the center -->
+                    <!-- 2 แถว ตรงกลาง ที่แสดง ข้อมูล รูปภาพ ชื่อโรงแรม จังหวัด ดูข้อมูล ถูกใจ เป็นต้น ...-->
                         <div class="col">
                             <br><br>
                             <div class="row row-cols-1 row-cols-md- row-cols-lg-3 g-4">
                                 {% for product in products %}
                                 <div class="col">
                                     <div class="card shadow-sm">
-                                        <img src="{{product.first_photo_url}}" class="bd-placeholder-img card-img-top" width="300" height="300" alt="{{product.name}}">
+
+                                        <!-- ต้นฉบับ แสดงรูปภาพโรงแรมจาก Google Map
+                                            <img src="{{product.first_photo_url}}" class="bd-placeholder-img card-img-top" width="300" height="300" alt="{{product.name}}">
+                                        -->
+
+                                        <!-- DO ****แสดงรูปภาพโรงแรมจาก Google Map และรูปภาพน้องสุนัขจากการอัพโหลดไฟล์****-->
+                                        
+                                        <!-- แสดงรูปภาพโรงแรมจาก Google Map -->
+                                        {% comment %} {% if product.first_photo_url == "ไม่มีรูปภาพ" %}
+                                            <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่ทราบ" -->
+                                            <center style="color: red;">
+                                                <br></br>
+                                                <strong>ไม่มีรูปภาพโรงแรมจาก Google Map</strong>
+                                                <i class="bi bi-geo-alt"></i>
+                                                <br></br>
+                                            </center>
+                                        {% else %}
+                                            <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url ไม่เท่ากับ "ไม่ทราบ" -->
+                                            <img src="{{product.first_photo_url}}" class="bd-placeholder-img card-img-top" width="300" height="300" alt="{{ product.name }}">
+                                        {% endif %}
+
+                                        <!-- แสดงรูปภาพน้องสุนัขจากการอัพโหลดลงเครื่อง -->
+                                        {% if product.image %} 
+                                            <!-- 
+                                                รูปภาพจากการอัพโหลดไฟล์ลงเครื่อง 
+                                                style="max-height: 450px; max-width: 100%; object-fit: cover;" (ต้นฉบับ)
+                                            -->
+                                            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="..." 
+                                            style="max-height: 250px; max-width: 100%; object-fit: fit;">
+                                        {% else %}
+                                            <!-- ถ้าไม่มีข้อมูลใน product.image.url -->
+                                            <center style="color: red;">
+                                                <br></br>
+                                                <i class="bi bi-x-lg"></i>
+                                                <strong>ไม่มีรูปภาพน้องสุนัขจากการอัพโหลดไฟล์</strong>
+                                                <br></br>
+                                                <br></br>
+                                            </center>
+                                        {% endif %}  {% endcomment %}
+                                        <!-- END แสดงรูปภาพโรงแรมจาก Google Map และรูปภาพน้องสุนัขจากการอัพโหลดไฟล์ -->
+
+                                        <!-- 
+                                            if...ถ้ามีรูปภาพน้องสุนัขจากการอัพโหลดไฟล์ ให้แสดงรูปน้องสุนัข
+                                            else...แต่ถ้าไม่มีให้แสดงรูปภาพโรงแรมจาก Google Map แทน 
+                                        -->
+                                        {% if product.image %}
+                                            <!-- รูปภาพจากการอัพโหลดไฟล์ลงเครื่อง -->
+                                            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="..." 
+                                            style="max-height: 250px; max-width: 100%; object-fit: fit;">
+                                        {% else %}
+                                            <!-- แสดงรูปภาพโรงแรมจาก Google Map -->
+                                            {% if product.first_photo_url == "ไม่มีรูปภาพ" %}
+                                                <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่ทราบ" -->
+                                                <center style="color: red;">
+                                                    <br></br>
+                                                    <strong>ไม่มีรูปภาพโรงแรมจาก Google Map</strong>
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    <br></br>
+                                                </center>
+                                            {% else %}
+                                                <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url ไม่เท่ากับ "ไม่ทราบ" -->
+                                                <img src="{{product.first_photo_url}}" class="bd-placeholder-img card-img-top" width="300" height="300" alt="{{ product.name }}">
+                                            {% endif %}
+                                        {% endif %}
+                                        <!-- 
+                                            END if...ถ้ามีรูปภาพน้องสุนัขจากการอัพโหลดไฟล์ ให้แสดงรูปน้องสุนัข
+                                            else...แต่ถ้าไม่มีให้แสดงรูปภาพโรงแรมจาก Google Map แทน 
+                                        -->
+
                                         <div class="card-body">
                                             
                                             <h5 class="card-title"><a href="{% url 'product' product.id %}">{{product.name}}</a></h5>
@@ -116,7 +220,6 @@
                                                     <a href="{% url 'product' product.id %}" class="btn btn-outline-primary">ดูข้อมูล</a>
                                                     <a href="#" class="btn btn-outline-dark"><i class="bi bi-heart-fill me-1" style="color: red;"></i>ถูกใจ</a>
                                                 </div>
-                            
                                                 <small class="text-muted">{{product.uploadDate}}</small>
                                             </div>
                                         </div>
@@ -125,6 +228,8 @@
                                 {% endfor %}
                             </div>
                             
+                            <hr class="my-4">
+
                             <!-- แสดงเลขหน้าปัจจุบันและทั้งหมด-->
                             <div class="row">
                                 <div class="col-md-12">
@@ -145,16 +250,18 @@
                                     </nav>
                                 </div>
                             </div> 
-
-                            <hr class="my-4">
+                            <br></br>
                         </div>
-                    <!-- END 2 Column at the center -->
-
-                  
+                    <!-- 
+                        END 2 แถว ตรงกลาง 
+                        ที่แสดง ข้อมูล รูปภาพ 
+                        ชื่อโรงแรม จังหวัด ดูข้อมูล ถูกใจ เป็นต้น ... 
+                    -->
                 </div><!-- end row -->
             </div><!-- end container -->
+
         </section>
-        <!-- END Product -->
+        <!-- END ข้อมูลโรงแรม หน้าหลัก -->
 
 {% endblock %}
 

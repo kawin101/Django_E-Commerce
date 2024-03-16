@@ -16,6 +16,61 @@ from django.core.files.storage import FileSystemStorage
 # ตรวจสอบผู้เข้าใช้งานระบบ
 from django.contrib.auth.models import auth
 
+def editData(request, pk):
+    # ดึงข้อมูลชื่อ username ปัจจุบันที่ใช้งานมาแสดง
+    writer = auth.get_user(request)
+
+    # ถ้าต้องการแสดงข้อมูลโรงแรมตาม Username ผู้เพิ่มข้อมูล
+    products = Product.objects.filter(writer=writer)
+    '''
+    และต้องลบเงื่อนไขตรวจสอบ Superuser ออก ในฟังก์ชัน `def login_user` หน้า views.py ในโฟล์เดอร์ store
+        if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
+        return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
+    เพื่อให้ผู้ใช้งานปกติ NOT Superuser มีสิทธิ์ login เข้าหน้า panel ได้ 
+    และสามารถ เพิ่ม ลบ แก้ไข ดู เฉพาะข้อมูลที่ username นั้นเป็นผู้เพิ่มข้อมูล
+    แต่ถ้าต้องการจัดการข้อมูลทั้งหมด ให้เข้า /admin (Django administration) 
+    จะสามารถจัดการข้อมูลได้ทั้งหมดฐานข้อมูลและสามารถ เพิ่ม ลบ แก้ไข ข้อมูลจังหวัดได้
+    '''
+    # ข้อมูลโรงแรมทั้งหมดมาแสดง
+    # products = Product.objects.all()
+
+    # นับจำนวนโรงทั้งหมดตาม Username ที่ได้เพิ่มข้อมูล
+    productCount = products.count()
+    # ข้อมูลจังหวัดทั้งหมดมาแสดง
+    categories = Category.objects.all()
+
+    # ดึงข้อมูลไอดีของทุกโรงแรมมาใช้ในการลบข้อมูล
+    productEdit = Product.objects.get(id=pk)
+
+    return render(request, "backend/editForm.html", {
+        "productEdit": productEdit,
+        "productCount": productCount,
+        "categories": categories,
+        "writer": writer,
+    })
+
+'''
+    ฟังก์ชันลบข้อมูลโรงแรม
+'''
+# ผู้ดูแลระบบต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
+@login_required(login_url='login') 
+def deleteData(request, pk):
+    # ดึงข้อมูลไอดีของทุกโรงแรมมาใช้ในการลบข้อมูล
+    product = Product.objects.get(id=pk)
+    # เรียกใช้งานฟังก์ชันเกี่ยวกับการจัดฐานไฟล์ในเครื่อง
+    fs = FileSystemStorage()
+    # ลบภาพปก น้องสุนัขของโรงแรม
+    fs.delete(str(product.image))
+    # ลบข้อมูลโรงแรมจากฐานข้อมูล
+    product.delete()
+
+    return redirect('panel')
+
+'''
+    ฟังก์ชันเพิ่มข้อมูลโรงแรม
+'''
+# ผู้ดูแลระบบต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
+@login_required(login_url='login') 
 def insertData(request):
     # ตรวจสอบคำขอว่าเป็นการเพิ่มข้อมูลไปยังเซิฟเวอร์และตัวแปรไฟล์รูปภาพ
     if request.method == "POST" and request.FILES["image"]:
@@ -99,10 +154,22 @@ def displayForm(request):
     # current_user = request.user
     writer = auth.get_user(request)
 
+    # ถ้าต้องการแสดงข้อมูลโรงแรมตาม Username ผู้เพิ่มข้อมูล
+    products = Product.objects.filter(writer=writer)
+    '''
+    และต้องลบเงื่อนไขตรวจสอบ Superuser ออก ในฟังก์ชัน `def login_user` หน้า views.py ในโฟล์เดอร์ store
+        if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
+        return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
+    เพื่อให้ผู้ใช้งานปกติ NOT Superuser มีสิทธิ์ login เข้าหน้า panel ได้ 
+    และสามารถ เพิ่ม ลบ แก้ไข ดู เฉพาะข้อมูลที่ username นั้นเป็นผู้เพิ่มข้อมูล
+    แต่ถ้าต้องการจัดการข้อมูลทั้งหมด ให้เข้า /admin (Django administration) 
+    จะสามารถจัดการข้อมูลได้ทั้งหมดฐานข้อมูลและสามารถ เพิ่ม ลบ แก้ไข ข้อมูลจังหวัดได้
+    '''
     # ข้อมูลโรงแรมทั้งหมดมาแสดง
-    products = Product.objects.all()
-    # นับจำนวนโรงทั้งหมดที่มีในฐานข้อมูล
-    productCount = Product.objects.count()
+    # products = Product.objects.all()
+
+    # นับจำนวนโรงทั้งหมดตาม Username ที่ได้เพิ่มข้อมูล
+    productCount = products.count()
     # ข้อมูลจังหวัดทั้งหมดมาแสดง
     categories = Category.objects.all()
 
@@ -126,10 +193,23 @@ def panel(request):
         # current_user = request.user
         writer = auth.get_user(request)
 
-        # ข้อมูลจังหวัดทั้งหมดมาแสดง
-        products = Product.objects.all()
-        # นับจำนวนโรงทั้งหมดที่มีในฐานข้อมูล
-        productCount = Product.objects.count()
+        # ถ้าต้องการแสดงข้อมูลโรงแรมตาม Username ผู้เพิ่มข้อมูล
+        products = Product.objects.filter(writer=writer)
+        '''
+        และต้องลบเงื่อนไขตรวจสอบ Superuser ออก ในฟังก์ชัน `def login_user` หน้า views.py ในโฟล์เดอร์ store
+            if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
+            return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
+        เพื่อให้ผู้ใช้งานปกติ NOT Superuser มีสิทธิ์ login เข้าหน้า panel ได้ 
+        และสามารถ เพิ่ม ลบ แก้ไข ดู เฉพาะข้อมูลที่ username นั้นเป็นผู้เพิ่มข้อมูล
+        แต่ถ้าต้องการจัดการข้อมูลทั้งหมด ให้เข้า /admin (Django administration) 
+        จะสามารถจัดการข้อมูลได้ทั้งหมดฐานข้อมูลและสามารถ เพิ่ม ลบ แก้ไข ข้อมูลจังหวัดได้
+        '''
+        # ข้อมูลโรงแรมทั้งหมดมาแสดง
+        # products = Product.objects.all()
+
+        # นับจำนวนโรงทั้งหมดตาม Username ที่ได้เพิ่มข้อมูล
+        productCount = products.count()
+        
         return render(request, 'backend/home.html', {
             "products": products,
             "productCount": productCount,
@@ -143,7 +223,7 @@ def panel(request):
         return redirect('login')
 
 '''
-    ฟังก์ชันแสดงหน้าแผงควบคุม ต้นฉบับ
+    ฟังก์ชันแสดงหน้าแผงควบคุม (ต้นฉบับ)
 '''
 # def panel(request):
 

@@ -36,13 +36,14 @@
         ทำให้เรามั่นใจได้ว่าข้อมูลที่ส่งไปยังเซิร์ฟเวอร์มาจากแหล่งที่เชื่อถือได้และไม่มีการประมวลผลโดยอัตโนมัติที่เกิดขึ้นได้.
         -->
         {% csrf_token %}
+        
         <div class="form-group">
-
-            <div class="form-group">
-                <div class="col-md-12">
-                    <textarea type="text" name="place_id" rows="1" class="form-control" placeholder="รหัสตำแหน่งโรงแรม | place_id"></textarea>
-                </div>
+            <div class="col-md-12">
+                <input type="text" name="place_id" class="form-control" placeholder="รหัสตำแหน่งโรงแรม | place_id">
             </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-6">
                 <input type="text" id="name" name="name" class="form-control" placeholder="ชื่อโรงแรม | name">
             </div>
@@ -55,8 +56,8 @@
                     {% endfor %}  
                 </select>
             </div>
-
         </div>
+        
         <div class="form-group">
             <div class="col-md-12">
                 <textarea type="text" name="address" rows="2" class="form-control" placeholder="ที่อยู่ | address"></textarea>

@@ -2,17 +2,89 @@
 
 
 {% block content %}
-    <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">{{ category }}</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">โรงแรมภายในจังหวัด "{{categoryName}}"</p>
-                </div>
-            </div>
-        </header>
+<!-- Header-->
+<header class="bg-primary py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <br></br>
+            <h1 class="display-4 fw-bolder">โรงแรมภายในจังหวัด "{{ categoryName }}" </h1>
+            <h5 class="lead fw-formal text-white-50 mb-0">โรงแรมที่สุนัขสามารถเข้าพักได้ครับ...</h5>
+            <br></br>
+        </div>
+    </div>
+</header>
 
-        <!-- Section-->
+<div class="container mt-5">
+    
+    <h2><strong>จังหวัด{{categoryName}}มีข้อมูลทั้งหมด "{{ productCount }}" โรงแรม</strong></h2>
+    <br></br>
+    
+    <div class="text-center">
+                <div class="list-group">
+                    {% for product in products %}
+                        {% comment %} <a href="{% url 'product' product.id %}" class="alert alert-success" role="alert">{{ product }}</a> {% endcomment %}
+                        
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
+                                    <div class="page-wrapper">
+                                        
+                                        <div class="blog-list row">
+                                            <div class="col-md-12">
+                                                <div class="card mb-4">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="post-media">
+                                                                <a href="#" title="">
+                                                                    <img src="{{product.first_photo_url}}" alt="" class="card-img-top img-fluid img-fluid-mini">
+                                                                    <div class="hovereffect"></div>
+                                                                </a>
+                                                            </div><!-- end media -->
+                                                        </div><!-- end col -->
+                        
+                                                        <div class="col-md-9">
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">
+                                                                    <a href="{% url 'product' product.id %}">
+                                                                        <p>
+                                                                            <strong>
+                                                                                <!-- ลำดับ -->
+                                                                                {{forloop.counter}}.ชื่อโรงแรม: {{product.name}}
+                                                                            </strong>
+                                                                        </p>
+                                                                    </a>
+                                                                </h4>
+                                                                <p class="card-text small-text">
+                                                                    <strong>ที่อยู่โรงแรม: {{ product.address }}</strong>
+                                                                </p>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <small class="text-muted small-text">
+                                                                        <a class="bg-orange" href="{% url 'searchCategory' product.category_id %}" title="">
+                                                                            <strong>จังหวัด: {{product.category}}</strong>
+                                                                        </a>
+                                                                    </small>
+                                                                    <small class="text-muted small-text">
+                                                                        <strong>วันที่: {{ product.uploadDate }}</strong>   
+                                                                    </small>
+                                                                </div>
+                                                            </div><!-- end card-body -->
+                                                        </div><!-- end col -->
+                                                    </div><!-- end row -->
+                                                </div><!-- end card -->
+                                            </div><!-- end col -->
+                                        </div><!-- end blog-list -->
+                                    </div><!-- end page-wrapper -->
+                                </div><!-- end col -->
+                            </div><!-- end row -->
+                        </div><!-- end container -->
+                        <br></br>
+                    {% endfor %}
+                    <hr></hr>
+                </div>
+    </div>
+</div>
+
+        {% comment %} <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -44,7 +116,7 @@
                     </div>
                     {% endfor %}  
             </div>
-        </section>
+        </section> {% endcomment %}
 <br></br>
 <br></br>
 <br></br>

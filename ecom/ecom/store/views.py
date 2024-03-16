@@ -10,7 +10,8 @@ from .forms import SearchForm
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 # เป็นคำสั่งใน Python ที่ใช้ในโปรเจกต์ Django เพื่อให้กลายเป็น decorator (ตกแต่งฟังก์ชัน) ที่ต้องการผู้ใช้เข้าสู่ระบบก่อนที่จะทำงานในหน้า view นั้น ๆ
 from django.contrib.auth.decorators import login_required
-
+# หากคุณต้องการให้ค้นหาข้อมูลโรงแรมด้วยเงื่อนไข "name" หรือ "address" ใน Django ORM คุณสามารถใช้ Q objects ร่วมกับ | (pipe) operator เพื่อรวมเงื่อนไขที่ต้องการ
+from django.db.models import Q
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
@@ -30,6 +31,8 @@ def search_view(request):
 
     return render(request, 'frontend/search.html', {'form': form, 'products': products, 'recent_searches': recent_searches})
 
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
+@login_required(login_url='login') 
 def searchWriter(request, writer):
     # ดึงข้อมูลผู้ใช้งานปัจจุบัน
     products = Product.objects.filter(writer=writer)
@@ -43,25 +46,58 @@ def searchWriter(request, writer):
         'writer': writer,
     })
 
-
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
-# ฟังก์ชันค้นหาโรงแรมด้วยชื่อ เช่น "ก" จะแสดงชื่อโรงแรมทั้งหมดที่มีตัวอักษรด้วย "ก"
+# ฟังก์ชันค้นหาด้วย ชื่อโรงแรม หรือ ที่อยู่ เช่น ตำบล อำเภอ จังหวัด
 def searchAddress(request):
     categories = Category.objects.all()
+    products = None  # กำหนดค่าเริ่มต้นให้เป็น None
 
     if request.method == "POST":
         searchAddress = request.POST.get('searchAddress', '')
-        # ค้นหาข้อมูล ด้วย ชื่อโรงแรม 
-        products = Product.objects.filter(name__contains=searchAddress)
 
-        return render(request, "frontend/searchAddress.html", { 
+        # ถ้าไม่มี if ค่อยตรวจสอบ ผลลัพธ์การค้นหาจะเป็น "จำนวนข้อมูลโรงแรมทั้งหมด"
+        # ตรวจสอบว่า ผู้ใช้งาน ไม่ได้พิมพ์ข้อมูลในช่องค้นหา ให้แสดง ผลลัพธ์การค้นหาเป็น "0"
+        if searchAddress:
+            products = Product.objects.filter(Q(name__contains=searchAddress) | Q(address__contains=searchAddress))
+            productsCount = products.count()
+        else:
+            productsCount = 0
+
+        return render(request, "frontend/searchAddress.html", {
             'searchAddress': searchAddress,
             'products': products,
             'categories': categories,
+            'productsCount': productsCount,
         })
     else:
         return render(request, "frontend/searchAddress.html", {'categories': categories})
+
+'''
+    ฟังก์ชันค้นหาด้วย ชื่อโรงแรม หรือ ที่อยู่ เช่น ตำบล อำเภอ จังหวัด (ต้นฉบับ)
+'''
+# def searchAddress(request):
+#     categories = Category.objects.all()
+
+#     if request.method == "POST":
+#         searchAddress = request.POST.get('searchAddress', '')
+        
+#         # ค้นหาข้อมูล ด้วย ชื่อโรงแรม 
+#         # products = Product.objects.filter(name__contains=searchAddress)
+
+#         # ค้นหาข้อมูล ด้วย ชื่อโรงแรม หรือ ที่อยู่
+#         products = Product.objects.filter(Q(name__contains=searchAddress) | Q(address__contains=searchAddress))
+#         # นับจำนวนผลลัพธ์การค้นหา
+#         productsCount = products.count()
+
+#         return render(request, "frontend/searchAddress.html", { 
+#             'searchAddress': searchAddress,
+#             'products': products,
+#             'categories': categories,
+#             'productsCount': productsCount,
+#         })
+#     else:
+#         return render(request, "frontend/searchAddress.html", {'categories': categories})
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
@@ -72,11 +108,14 @@ def searchCategory(request, cat_id):
     categoryName = Category.objects.get(id=cat_id)
     # ดึงข้อมูลของจังหวัดทั้งหมด
     categories = Category.objects.all()
+    # นับจำนวนโรงแรมตาม category_id
+    productCount = Product.objects.filter(category_id=cat_id).count()
 
     return render(request, "frontend/category.html", {
         'products': products,
         'categories': categories,
         'categoryName': categoryName,
+        'productCount': productCount,
     })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
@@ -93,7 +132,7 @@ def product(request, pk):
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def home(request):
-    # เรียงลำดับตามคีย์หลักตามลำดับจากมากไปน้อย
+    # เรียงลำดับตามคีย์หลักตามลำดับจากมากไปน้อย หรือ ข้อมูลใหม่ ไป ข้อมูลเก่า
     products = Product.objects.all().order_by('-pk')
     categories = Category.objects.all()
 
@@ -115,15 +154,25 @@ def home(request):
     5. การใช้โค้ดนี้ช่วยจัดการการแสดงข้อมูลหน้าเว็บที่แบ่งหน้า (pagination) ใน Django 
     และป้องกันการเกิดข้อผิดพลาดเมื่อรับค่า `page` ที่ไม่ถูกต้องหรือหน้าที่ไม่มีข้อมูล.
     '''
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
+    # try:
+    #     page = int(request.GET.get('page', '1'))
+    # except ValueError:
+    #     page = 1
+
+    # try:
+    #     product_per_page = paginator.get_page(page)
+    # except (EmptyPage, InvalidPage):
+    #     product_per_page = paginator.get_page(paginator.num_pages)
 
     try:
-        product_per_page = paginator.get_page(page)
-    except (EmptyPage, InvalidPage):
-        product_per_page = paginator.get_page(paginator.num_pages)
+        page = request.GET.get('page', 1)
+        product_per_page = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        product_per_page = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        product_per_page = paginator.page(paginator.num_pages)
 
     return render(request, 'frontend/home.html', {
         'products':product_per_page,
@@ -198,7 +247,7 @@ def register_user(request):
         })
 
 '''
-โค้ดตัวต้นฉบับ ฟังก์ชัน เข้าสู่ระบบ
+    ฟังก์ชันการเข้าสู่ระบบ (ต้นฉบับ)
 '''
 
 # def login_user(request):

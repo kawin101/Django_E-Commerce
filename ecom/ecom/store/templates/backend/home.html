@@ -55,7 +55,7 @@
                 </td>
 
                 <!-- เบอร์โทรติดต่อ -->
-                <td class="text-center">{{product.phone_number}}</td>
+                <td class="text-center">{{ product.phone_number }}</td>
 
                 <!-- ละติจูด -->
                 {% comment %} <td class="text-right hidden-xs">{{product.latitude}}</td> {% endcomment %}
@@ -68,7 +68,7 @@
                 </td>
                 
                 <!-- จังหวัด -->
-                <td class="text-right hidden-xs"><strong>{{product.category}}</strong></td>
+                <td class="text-center">{{ product.category }}</td>
 
                 <!-- ตำแหน่งบนแผนที่ -->
                 {% comment %} <td class="text-right hidden-xs" style="max-width: 15ch;">
@@ -96,8 +96,8 @@
                 <!-- แก้ไข/ลบ -->
                 <td class="text-center">
                     <div class="btn-group btn-group-xs">
-                        <a href="#" data-toggle="tooltip" title="แก้ไข" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-                        <a href="#" data-toggle="tooltip" title="ลบ" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                        <a href="{% url 'editData' product.id %}" data-toggle="tooltip" title="แก้ไข" class="btn btn-default"><i class="fa fa-pencil"></i></a>
+                        <a href="{% url 'deleteData' product.id %}" data-toggle="tooltip" onclick="return confirm('ท่านผู้ดูแลระบบต้องการลบข้อมูลหรือไม่?')" title="ลบ" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
                     </div>
                 </td>
             </tr>
