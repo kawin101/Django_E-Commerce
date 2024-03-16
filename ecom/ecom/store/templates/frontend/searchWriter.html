@@ -11,39 +11,76 @@
             </div>
         </header>
 
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                    
-                    {% for product in products %}
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <!-- Product image-->
-                            <img class="card-img-top" src="{{ product.first_photo_url }}" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ product.name }}</h5>
-                                    
-                                    
-                                    
-                                    <strong>จังหวัด: {{product.category}}</strong>
-                                    
-                                </div>
-                            </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-    <div class="text-center">
-        <a class="btn btn-outline-dark mt-auto" href="{% url 'product' product.id %}">View Product</a>
-    </div>
-                            </div>
+        <div class="container mt-5">
+    
+            <h2><strong>มีข้อมูลทั้งหมด "{{ productCount }}" โรงแรม</strong></h2>
+            <br></br>
+            
+            <div class="text-center">
+                        <div class="list-group">
+                            {% for product in products %}
+                                {% comment %} <a href="{% url 'product' product.id %}" class="alert alert-success" role="alert">{{ product }}</a> {% endcomment %}
+                                
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
+                                            <div class="page-wrapper">
+                                                
+                                                <div class="blog-list row">
+                                                    <div class="col-md-12">
+                                                        <div class="card mb-4">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <div class="post-media">
+                                                                        <a href="#" title="">
+                                                                            <img src="{{product.first_photo_url}}" alt="" class="card-img-top img-fluid img-fluid-mini">
+                                                                            <div class="hovereffect"></div>
+                                                                        </a>
+                                                                    </div><!-- end media -->
+                                                                </div><!-- end col -->
+                                
+                                                                <div class="col-md-9">
+                                                                    <div class="card-body">
+                                                                        <h4 class="card-title">
+                                                                            <a href="{% url 'product' product.id %}">
+                                                                                <p>
+                                                                                    <strong>
+                                                                                        <!-- ลำดับ -->
+                                                                                        {{forloop.counter}}.ชื่อโรงแรม: {{product.name}}
+                                                                                    </strong>
+                                                                                </p>
+                                                                            </a>
+                                                                        </h4>
+                                                                        <p class="card-text small-text">
+                                                                            <strong>ที่อยู่โรงแรม: {{ product.address }}</strong>
+                                                                        </p>
+                                                                        <div class="d-flex justify-content-between align-items-center">
+                                                                            <small class="text-muted small-text">
+                                                                                <a class="bg-orange" href="{% url 'searchCategory' product.category_id %}" title="">
+                                                                                    <strong>จังหวัด: {{product.category}}</strong>
+                                                                                </a>
+                                                                            </small>
+                                                                            <small class="text-muted small-text">
+                                                                                <strong>วันที่: {{ product.uploadDate }}</strong>   
+                                                                            </small>
+                                                                        </div>
+                                                                    </div><!-- end card-body -->
+                                                                </div><!-- end col -->
+                                                            </div><!-- end row -->
+                                                        </div><!-- end card -->
+                                                    </div><!-- end col -->
+                                                </div><!-- end blog-list -->
+                                            </div><!-- end page-wrapper -->
+                                        </div><!-- end col -->
+                                    </div><!-- end row -->
+                                </div><!-- end container -->
+                                <br></br>
+                            {% endfor %}
+                            <hr></hr>
                         </div>
-                    </div>
-                    {% endfor %}  
-            </div>
-        </section>
+                </div>
+        </div>
+
 <br></br>
 <br></br>
 <br></br>

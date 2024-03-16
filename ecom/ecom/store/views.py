@@ -39,11 +39,13 @@ def searchWriter(request, writer):
 
     # ดึงข้อมูลหมวดหมู่ทั้งหมด
     categories = Category.objects.all()
+    productCount = products.count()
 
     return render(request, "frontend/searchWriter.html", {
         'products': products,
         'categories': categories,
         'writer': writer,
+        'productCount': productCount,
     })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
