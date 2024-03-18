@@ -49,9 +49,56 @@
           <div class="card-body">
             
             <center>
-                <h5 class="card-title">{{ product.name }}</h5>
+
+                <h3 class="card-title">ชื่อโรงแรม: {{ product.name }}</h3>
+                <br>
+                
+                <p class="card-text">ที่อยู่โรงแรม: {{ product.address }}</p>
+                <br>
+
+                <p class="card-text">เบอร์โทรติดต่อ: {{ product.phone_number }}</p>
+                <br>
+
+                <!--
+                <p class="card-text">{{ product.latitude }}</p>
+                <br>
+
+                <p class="card-text">{{ product.longitude }}</p>
+                <br>
+                -->
+
+                {% if product.website == "ไม่ทราบ" %}
+                  <p>เว็บไซต์โรงแรม: ไม่ทราบ</p>
+                {% else %}
+                    <p>
+                        <a href="{{ product.website }}" class="card-text" target="_blank">เว็บไซต์โรงแรม: {{ product.website }}</a>
+                    </p>
+                {% endif %}
+            
+                <br>
+                
+                <p class="card-text">วันที่: {{ product.uploadDate }}</p>
+                <br>
+                
+                <a href="{% url 'searchCategory' product.category_id %}" class="btn btn-warning">จังหวัด: {{ product.category }}</a>
+                &nbsp;
+                
+                <!-- ตรวจสอบตำแหน่งบนแผนที่ ว่า มีข้อมูลหรือไม่? Empty, NOT NULL, None-->
+                {% if product.map_url %}
+                  <a href="{{ product.map_url }}" class="btn btn-primary" target="_blank">นำทาง <i class="bi bi-geo-alt"></i></a>
+                {% else %}
+                  <!-- กรณีไม่มีข้อมูลใน product.map_url -->
+                  <a href="#"class="btn btn-white">ไม่มีข้อมูลตำแหน่งบนแผนที่ <i class="bi bi-geo-alt"></i></a>
+                {% endif %}
+            
+                &nbsp;
+
+                <a href="{% url 'home' %}" class="btn btn-secondary">กลับสู่หน้าหลัก</a>
+
+                {% comment %} <h5 class="card-title">ชื่อโรงแรม: {{ product.name }}</h5>
+                
                 <br/>
-                <p class="card-text justified">{{ product.address }}</p>
+                <p class="card-text justified">ที่อยู่โรงแรม: {{ product.address }}</p>
                 {{ product.phone_number }}
                 <br></br>
                 {{ product.latitude }}
@@ -63,15 +110,16 @@
                   <strong>จังหวัด: {{product.category}}</strong>
                 </a>
                 <br></br>
-                
-                {{ product.map_url }}
-                <br></br>
+
                 {{ product.website }}
                 <br></br>
+
                 {{ product.uploadDate }}
                 <br></br>
                 
-                <a href="{% url 'home' %}" class="btn btn-primary">กลับสู่หน้าหลัก</a>
+                <a href="{{ product.map_url }}"class="btn btn-primary" target="_blank">นำทาง</a>
+                &nbsp;
+                <a href="{% url 'home' %}" class="btn btn-secondary">กลับสู่หน้าหลัก</a> {% endcomment %}
             </center>
 
           </div>

@@ -43,8 +43,8 @@
                 {% comment %} <th class="text-right hidden-xs">ลองติจูด</th> {% endcomment %}
                 <th>รูปภาพ</th>
                 <th class="text-right hidden-xs">จังหวัด</th>
-                {% comment %} <th class="text-right hidden-xs">ตำแหน่งบนแผนที่</th> {% endcomment %}
-                {% comment %} <th class="text-right hidden-xs">เว็บไซต์โรงแรม</th> {% endcomment %}
+                <th class="text-right hidden-xs">แผนที่</th>
+                {% comment %} <th class="text-right hidden-xs">เว็บไซต์</th> {% endcomment %}
                 <th class="hidden-xs text-center">วันที่</th>
                 <th class="text-center">แก้ไข/ลบ</th>
             </tr>
@@ -83,11 +83,11 @@
                 <td class="text-center">{{ product.category }}</td>
 
                 <!-- ตำแหน่งบนแผนที่ -->
-                {% comment %} <td class="text-right hidden-xs" style="max-width: 15ch;">
+                <td class="text-right hidden-xs" style="max-width: 15ch;">
                     <a href="{{ product.map_url }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
                         {{ product.map_url }}
                     </a>
-                </td>  {% endcomment %}
+                </td>
 
                 <!-- เว็บไซต์โรงแรม -->
                 {% comment %} {% if product.website != "ไม่ทราบ" %}

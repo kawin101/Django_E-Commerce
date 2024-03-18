@@ -136,7 +136,11 @@ def product(request, pk):
 def home(request):
     # เรียงลำดับตามคีย์หลักตามลำดับจากมากไปน้อย หรือ ข้อมูลใหม่ ไป ข้อมูลเก่า
     products = Product.objects.all().order_by('-pk')
+    
+    # ดึงข้อมูลของจังหวัดทั้งหมด
     categories = Category.objects.all()
+    # ดึงชื่อจังหวัดมาแสดงผล
+    categoryName = Category.objects.all()
 
     # if .order_by('pk') = 1,2,3,4
     # '-pk' = 4,3,2,1
@@ -179,6 +183,7 @@ def home(request):
     return render(request, 'frontend/home.html', {
         'products':product_per_page,
         'categories': categories,
+        'categoryName': categoryName,
         'latest': latest,
         })
 

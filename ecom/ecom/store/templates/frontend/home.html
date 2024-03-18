@@ -125,6 +125,21 @@
             ม้าหมุน | เล่นภาพหมุนอัตโนมัติแบบสามารถควบคุมไปรูปภาพหน้าหลังได้ 
         -->
 
+        <!-- จังหวัดทั้งหมด -->   
+        <div class="container">
+            <div class="d-grid gap-2 d-md-block">
+                <br>
+                <!-- ระยะห่างระหว่างแถวและคอลัมน์เป็นสามช่อง 
+                    คุณสามารถเพิ่มคลาส mb-3 (Margin bottom) 
+                    สำหรับแถวและ ms-3 (Margin start) 
+                    สำหรับคอลัมน์เพื่อกำหนดระยะห่าง -->
+                {% for category in categories %}
+                    <a href="{% url 'searchCategory' category.id %}" class="btn btn-warning mb-3 ms-3">{{category.name}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- END จังหวัดทั้งหมด -->
+
         <!-- ข้อมูลโรงแรม หน้าหลัก -->
         <section class="section">
             <div class="container">
