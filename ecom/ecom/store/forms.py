@@ -23,7 +23,7 @@ class SignUpForm(UserCreationForm):
 		self.fields['username'].widget.attrs['class'] = 'form-control'
 		self.fields['username'].widget.attrs['placeholder'] = 'กรุณากรอก Username ของท่าน เช่น myusername1234@.+-_'
 		self.fields['username'].label = ''
-		self.fields['username'].help_text = '<span class="form-text text-muted"><small>ต้องการขั้นต่ำ 150 ตัวอักษรหรือน้อยกว่า กรุณาพิมพ์ด้วยตัวอักษร ตัวเลข และตัวอักษรพิเศษ เช่น @/./+/-/_ เท่านั้นครับ</small></span>'
+		self.fields['username'].help_text = '<span class="form-text text-muted"><small>ต้องการขั้นต่ำ 4 ตัวอักษรหรือน้อยกว่า 150 กรุณาพิมพ์ด้วยตัวอักษร ตัวเลข และตัวอักษรพิเศษ เช่น @/./+/-/_ เท่านั้นครับ</small></span>'
 
 		self.fields['password1'].widget.attrs['class'] = 'form-control'
 		self.fields['password1'].widget.attrs['placeholder'] = 'กรุณากรอก Password ของท่าน'

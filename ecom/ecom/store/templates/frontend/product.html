@@ -29,7 +29,8 @@
           {% endif %}
 
           <br></br>
-          {% if product.image %}
+          <!-- ตรวจสอบว่าข้อมูลใน image ไม่ใช่ "ไม่มีข้อมูล" -->
+          {% if product.image != "ไม่มีข้อมูล" %}
             <!-- รูปภาพจากการอัพโหลดไฟล์ลงเครื่อง -->
             <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
           {% else %}

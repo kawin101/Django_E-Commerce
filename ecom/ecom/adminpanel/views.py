@@ -74,18 +74,20 @@ def updateData(request, pk):
                     datafile = request.FILES["image"]
                     # ตรวจสอบว่าข้อมูลที่ส่งเข้ามาเป็นประเภทรูปภาพ
                     if str(datafile.content_type).startswith("image"):
+                        
                         # ลบภาพเดิมของรูปภาพน้องสุนัขจากการอัพโหลดไฟล์
                         fs = FileSystemStorage()
-                        fs.delete(str(product.image))
+                        fs.delete(str(product.image.name))
 
-                        # แทนที่รูปภาพใหม่
+                        # แทนที่รูปภาพใหม่ 
                         # ส่งรูปภาพที่อัพโหลดมา ไปเก็บที่โฟลเดอร์ที่กำหนดไว้
                         img_url = "uploads/product/"+datafile.name
                         # บันทึกรูปภาพลงเครื่อง
                         filename = fs.save(img_url, datafile)
-                        product.image = img_url
+                        # บันทึกรูปภาพจากการอัพโหลด ไปใน Model Product ที่ตัวแปร image ด้วยชื่อรูปภาพ
+                        product.image = filename
                         product.save()
-                    
+         
                     '''
                         **ตอนทดสอบ เมื่อไม่มีรูปภาพใหม่จะทำงานไปจนถึง except: 
                         เพราะต้องอ่านโค้ดทั้งหมดใน def updateData ก่อนแล้วถึง return "messages" และ redirect
@@ -119,48 +121,52 @@ def updateData(request, pk):
 # ผู้ดูแลระบบต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def editData(request, pk):
-    # ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่? ถ้าใช้ให้ทำงานต่อไป
-    if request.user.is_superuser:
-        # ดึงข้อมูลชื่อ username ปัจจุบันที่ใช้งานมาแสดง
-        writer = auth.get_user(request)
+    try:
+        # ตรวจสอบว่าเป็นผู้ดูแลระบบหรือไม่? ถ้าใช้ให้ทำงานต่อไป
+        if request.user.is_superuser:
+            # ดึงข้อมูลชื่อ username ปัจจุบันที่ใช้งานมาแสดง
+            writer = auth.get_user(request)
 
-        # ถ้าต้องการแสดงข้อมูลโรงแรมตาม Username ผู้เพิ่มข้อมูล
-        products = Product.objects.filter(writer=writer)
-        '''
-        และต้องลบเงื่อนไขตรวจสอบ Superuser ออก ในฟังก์ชัน `def login_user` หน้า views.py ในโฟล์เดอร์ store
-            if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
-            return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
-        เพื่อให้ผู้ใช้งานปกติ NOT Superuser มีสิทธิ์ login เข้าหน้า panel ได้ 
-        และสามารถ เพิ่ม ลบ แก้ไข ดู เฉพาะข้อมูลที่ username นั้นเป็นผู้เพิ่มข้อมูล
-        แต่ถ้าต้องการจัดการข้อมูลทั้งหมด ให้เข้า /admin (Django administration) 
-        จะสามารถจัดการข้อมูลได้ทั้งหมดฐานข้อมูลและสามารถ เพิ่ม ลบ แก้ไข ข้อมูลจังหวัดได้
-        '''
-        # ข้อมูลโรงแรมทั้งหมดมาแสดง
-        # products = Product.objects.all()
+            # ถ้าต้องการแสดงข้อมูลโรงแรมตาม Username ผู้เพิ่มข้อมูล
+            products = Product.objects.filter(writer=writer)
+            '''
+            และต้องลบเงื่อนไขตรวจสอบ Superuser ออก ในฟังก์ชัน `def login_user` หน้า views.py ในโฟล์เดอร์ store
+                if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
+                return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
+            เพื่อให้ผู้ใช้งานปกติ NOT Superuser มีสิทธิ์ login เข้าหน้า panel ได้ 
+            และสามารถ เพิ่ม ลบ แก้ไข ดู เฉพาะข้อมูลที่ username นั้นเป็นผู้เพิ่มข้อมูล
+            แต่ถ้าต้องการจัดการข้อมูลทั้งหมด ให้เข้า /admin (Django administration) 
+            จะสามารถจัดการข้อมูลได้ทั้งหมดฐานข้อมูลและสามารถ เพิ่ม ลบ แก้ไข ข้อมูลจังหวัดได้
+            '''
+            # ข้อมูลโรงแรมทั้งหมดมาแสดง
+            # products = Product.objects.all()
 
-        # นับจำนวนโรงทั้งหมดตาม Username ที่ได้เพิ่มข้อมูล
-        productCount = products.count()
-        # ข้อมูลจังหวัดทั้งหมดมาแสดง
-        categories = Category.objects.all()
+            # นับจำนวนโรงทั้งหมดตาม Username ที่ได้เพิ่มข้อมูล
+            productCount = products.count()
+            # ข้อมูลจังหวัดทั้งหมดมาแสดง
+            categories = Category.objects.all()
 
-        # ดึงข้อมูลไอดีของทุกโรงแรมมาใช้ในการลบข้อมูล
-        productEdit = Product.objects.get(id=pk)
+            # ดึงข้อมูลไอดีของทุกโรงแรมมาใช้ในการลบข้อมูล
+            productEdit = Product.objects.get(id=pk)
 
-        return render(request, "backend/editForm.html", {
-            "productEdit": productEdit,
-            "productCount": productCount,
-            "categories": categories,
-            "writer": writer,
-        })
+            return render(request, "backend/editForm.html", {
+                "productEdit": productEdit,
+                "productCount": productCount,
+                "categories": categories,
+                "writer": writer,
+            })
 
-    else:
-        # แจ้งเตือนกลับไปยังหน้าหลัก ว่า username ที่คุณใช้ไม่ใช้ผู้ดูแลระบบ
-        messages.error(request, ("ท่านไม่ได้รับอนุญาต เฉพาะผู้ดูแลระบบเท่านั้น!"))
-        # นำทางกลับไปยังหน้าเข้าสู่ระบบ
-        return redirect('login')
+        else:
+            # แจ้งเตือนกลับไปยังหน้าหลัก ว่า username ที่คุณใช้ไม่ใช้ผู้ดูแลระบบ
+            messages.error(request, ("ท่านไม่ได้รับอนุญาต เฉพาะผู้ดูแลระบบเท่านั้น!"))
+            # นำทางกลับไปยังหน้าเข้าสู่ระบบ
+            return redirect('login')
+    except:
+        return redirect('panel')
 
 '''
     ฟังก์ชันลบข้อมูลโรงแรม
+
 '''
 # ผู้ดูแลระบบต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
@@ -172,8 +178,11 @@ def deleteData(request, pk):
             product = Product.objects.get(id=pk)
             # เรียกใช้งานฟังก์ชันเกี่ยวกับการจัดฐานไฟล์ในเครื่อง
             fs = FileSystemStorage()
+
             # ลบภาพปก น้องสุนัขของโรงแรม
-            fs.delete(str(product.image))
+            # fs.delete(str(product.image))
+            fs.delete(str(product.image.name))
+
             # ลบข้อมูลโรงแรมจากฐานข้อมูล
             product.delete()
             # ส่งข้อความแจ้งเตือนกลับไปหาผู้ดูแลระบบ

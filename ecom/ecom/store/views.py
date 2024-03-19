@@ -213,7 +213,7 @@ def login_user(request):
             if user.is_superuser:  # ตรวจสอบว่าผู้ใช้เป็น admin หรือไม่
                 return redirect('panel')  # ถ้าเป็น admin ให้เปลี่ยนเส้นทางไปหน้า panel
             else:
-                messages.success(request, ("ยินดีต้อนรับ ท่านได้เข้าสู่ระบบแล้วเรียบร้อย!"))
+                messages.success(request, f"ยินดีต้อนรับท่าน {username} ท่านได้เข้าสู่ระบบแล้วเรียบร้อย!")
                 return redirect('home')  # ถ้าไม่ใช่ admin ให้เปลี่ยนเส้นทางไปหน้าหลัก
         else:
             messages.error(request, ("เกิดข้อผิดพลาดกรุณาลองอีกครั้ง..."))
@@ -242,7 +242,7 @@ def register_user(request):
             # log in user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ("ท่านได้สมัครสมาชิกเสร็จแล้วเรียบร้อย! ยินดีต้อนรับครับ!"))
+            messages.success(request, ("ท่านได้สมัครสมาชิกเสร็จแล้วเรียบร้อย! {{username}}ยินดีต้อนรับครับ!"))
             return redirect('home')
         else:
             messages.error(request, ("เกิดข้อผิดพลาด! เกิดปัญหาในการสมัครสมาชิก กรุณาลองใหม่อีกครั้ง......"))

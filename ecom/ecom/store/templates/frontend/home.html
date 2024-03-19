@@ -12,10 +12,13 @@
         <header class="bg-primary py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <br></br>
+                    <!-- รูปน้องสุนัข -->
+                    
+                    <!-- รูปน้องสุนัข -->
+
                     <h1 class="display-4 fw-bolder">โรงแรมสุนัขเข้าพักได้</h1>
                     <p class="lead fw-normal text-white-50 mb-0">โรงแรมเป็นมิตรกับสุนัข เพื่อคนรักสุนัข</p>
-                    <br></br>
+
                 </div>
             </div>
         </header>
@@ -126,7 +129,7 @@
         -->
 
         <!-- จังหวัดทั้งหมด -->   
-        <div class="container">
+        {% comment %} <div class="container">
             <div class="d-grid gap-2 d-md-block">
                 <br>
                 <!-- ระยะห่างระหว่างแถวและคอลัมน์เป็นสามช่อง 
@@ -137,17 +140,20 @@
                     <a href="{% url 'searchCategory' category.id %}" class="btn btn-warning mb-3 ms-3">{{category.name}}</a>
                 {% endfor %}
             </div>
-        </div>
+        </div> {% endcomment %}
         <!-- END จังหวัดทั้งหมด -->
 
         <!-- ข้อมูลโรงแรม หน้าหลัก -->
         <section class="section">
+            
             <div class="container">
                 <div class="row">
+                    
                     
                     <!-- 2 แถว ตรงกลาง ที่แสดง ข้อมูล รูปภาพ ชื่อโรงแรม จังหวัด ดูข้อมูล ถูกใจ เป็นต้น ...-->
                         <div class="col">
                             <br><br>
+                            <p>**เรียงลำดับจากโรงแรมล่าสุด</p>
                             <div class="row row-cols-1 row-cols-md- row-cols-lg-3 g-4">
                                 {% for product in products %}
                                 <div class="col">
@@ -197,14 +203,15 @@
                                             if...ถ้ามีรูปภาพน้องสุนัขจากการอัพโหลดไฟล์ ให้แสดงรูปน้องสุนัข
                                             else...แต่ถ้าไม่มีให้แสดงรูปภาพโรงแรมจาก Google Map แทน 
                                         -->
-                                        {% if product.image %}
+                                        <!-- ตรวจสอบว่าข้อมูลใน image ไม่ใช่ "ไม่มีข้อมูล" -->
+                                        {% if product.image != "ไม่มีข้อมูล" %}
                                             <!-- รูปภาพจากการอัพโหลดไฟล์ลงเครื่อง -->
                                             <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="..." 
                                             style="max-height: 250px; max-width: 100%; object-fit: fit;">
                                         {% else %}
                                             <!-- แสดงรูปภาพโรงแรมจาก Google Map -->
                                             {% if product.first_photo_url == "ไม่มีรูปภาพ" %}
-                                                <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่ทราบ" -->
+                                                <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่มีรูปภาพ" -->
                                                 <center style="color: red;">
                                                     <br></br>
                                                     <strong>ไม่มีรูปภาพโรงแรมจาก Google Map</strong>
@@ -212,7 +219,7 @@
                                                     <br></br>
                                                 </center>
                                             {% else %}
-                                                <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url ไม่เท่ากับ "ไม่ทราบ" -->
+                                                <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url ไม่เท่ากับ "ไม่มีรูปภาพ" -->
                                                 <img src="{{product.first_photo_url}}" class="bd-placeholder-img card-img-top" width="300" height="300" alt="{{ product.name }}">
                                             {% endif %}
                                         {% endif %}

@@ -52,7 +52,7 @@ class Product(models.Model):
     # วันที่
     uploadDate = models.DateField(auto_now_add=True)
     # รูปภาพจากในเครื่องคอมพิวเตอร์
-    image = models.ImageField(upload_to='uploads/product/', blank=True, null=True)
+    image = models.ImageField(upload_to='uploads/product/', default='')
     # ผู้เพิ่มข้อมูลโรงแรม
     writer = models.CharField(max_length=255)
 
