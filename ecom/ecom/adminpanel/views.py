@@ -166,7 +166,6 @@ def editData(request, pk):
 
 '''
     ฟังก์ชันลบข้อมูลโรงแรม
-
 '''
 # ผู้ดูแลระบบต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 

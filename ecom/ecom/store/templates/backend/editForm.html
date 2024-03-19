@@ -99,6 +99,10 @@
                 </p>
                 <img src="{{productEdit.first_photo_url}}" alt="" style="width: 600px; height: 400px;">
                 <br></br>
+                
+                <!-- แสดงที่อยู่ไฟล์ของรูปภาพโรงแรมจาก Google Map เป็นข้อความสีน้ำเงิน -->
+                <p style="color: blue;">{{ productEdit.image.url }}</p>
+
                 <textarea type="text" name="first_photo_url" rows="2" 
                 class="form-control" placeholder="รูปภาพโรงแรมแบบ URL | first_photo_url">{{productEdit.first_photo_url}}</textarea>
             </div>
@@ -127,7 +131,9 @@
                 <!-- แสดงรูปภาพ (ต้นฉบับ) -->
                 <img src="{{productEdit.image.url}}" alt="" style="width: 600px; height: 400px;"> 
                 <br></br>
-                
+                <!-- แสดงที่อยู่ไฟล์ของรูปภาพน้องสุนัขจากการอัพโหลดเป็นข้อความสีน้ำเงิน -->
+                <p style="color: blue;">{{ productEdit.image.url }}</p>
+
                 <input type="file" name="image" 
                 class="form-control" placeholder="รูปภาพหน้าปก รูปน้องสุนัข | image">
             </div>
