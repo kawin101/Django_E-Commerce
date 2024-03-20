@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from .cart import Cart
 from store.models import Product
 from django.http import JsonResponse
+from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 
 def cart_summary(request):
     # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
@@ -9,11 +11,77 @@ def cart_summary(request):
 
     # Get the cart
     cart = Cart(request)
-    cart_products = cart.get_prods
+    cart_products = cart.get_prods()
+
+    navigate_message = ""
+    google_maps_url = ""
+
+    if request.method == 'POST':
+        if 'navigate' in request.POST:
+            # รับค่าสถานที่ 1 และสถานที่ 2 จาก request.POST
+            location1 = request.POST.get('location1', '')
+            location2 = request.POST.get('location2', '')
+
+            # นำทางผู้ใช้ไปยังสถานที่ปลายทาง (ตัวอย่างเช่นการแสดงผลในที่นี้เป็นการสร้างลิงก์ URL)
+            navigate_message = f"กำลังนำทางจาก {location1} ไปยัง {location2}"
+            google_maps_url = f"https://www.google.com/maps/dir/{location1}/{location2}"
+        else:
+            return HttpResponseForbidden("Invalid request")
+
     return render(request, "cart_summary.html", {
         "cart_products": cart_products,
         "username": username,
+        "navigate_message": navigate_message,
+        "google_maps_url": google_maps_url,
     })
+
+'''
+    ฟังก์ชันนับจำนวนโรงแรมโดนใจทั้งหมด (ทำงานได้ แต่ต้องปรับปรุง)
+'''
+# def cart_summary(request):
+#     # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+#     username = request.user.username
+
+#     # Get the cart
+#     cart = Cart(request)
+#     cart_products = cart.get_prods()
+
+#     navigate_message = ""
+#     google_maps_url = ""
+
+#     if request.method == 'POST':
+
+#         # รับค่าสถานที่ 1 และสถานที่ 2 จาก request.POST
+#         location1 = request.POST.get('location1', '')
+#         location2 = request.POST.get('location2', '')
+
+#         # นำทางผู้ใช้ไปยังสถานที่ปลายทาง (ตัวอย่างเช่นการแสดงผลในที่นี้เป็นการสร้างลิงก์ URL)
+#         navigate_message = f"กำลังนำทางจาก {location1} ไปยัง {location2}"
+#         google_maps_url = f"https://www.google.com/maps/dir/{location1}/{location2}"
+            
+#     return render(request, "cart_summary.html", {
+#         "cart_products": cart_products,
+#         "username": username,
+#         "navigate_message": navigate_message,
+#         "google_maps_url": google_maps_url,
+#     })
+
+
+'''
+    ฟังก์ชันนับจำนวนโรงแรมโดนใจทั้งหมด (ต้นฉบับ)
+'''
+# def cart_summary(request):
+#     # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+#     username = request.user.username
+
+#     # Get the cart
+#     cart = Cart(request)
+#     cart_products = cart.get_prods
+
+#     return render(request, "cart_summary.html", {
+#         "cart_products": cart_products,
+#         "username": username,
+#     })
 
 def cart_add(request):
     # Get the cart

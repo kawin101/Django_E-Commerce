@@ -16,6 +16,73 @@
             </div>
         </header>
         <br/>
+
+        <h2>Navigation</h2>        
+
+        <form action="" method="post" onsubmit="openLink()">
+            {% csrf_token %}
+            {% if cart_products %}
+                <label for="location1">Location 1:</label>
+                <select id="location1" name="location1" required>
+                    {% for product in cart_products %}
+                        <option value="{{ product.name }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+
+                <label for="location2">Location 2:</label>
+                <select id="location2" name="location2" required>
+                    {% for product in cart_products %}
+                        <option value="{{ product.name }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <p>
+                    <!-- เปลี่ยนชื่อปุ่มเป็น 'navigate' -->
+                    <input type="submit" value="Google Maps" name="navigate" class="btn btn-primary">
+                </p>
+            {% endif %}
+
+            {% comment %} {% if navigate_message %}
+            <p>{{ navigate_message }}</p>
+            {% endif %}
+        
+            {% if google_maps_url %}
+            <p><a class="btn btn-primary" href="{{ google_maps_url }}" target="_blank">View route on Google Maps</a></p>
+            {% endif %} {% endcomment %}
+            
+        </form>
+
+
+        <!-- นำทางด้วย Google Maps (ทำงานได้ แต่ต้องปรับปรุง) -->
+        {% comment %} <h2>Navigation</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {% if cart_products %}
+                <label for="location1">Location 1:</label>
+                <select id="location1" name="location1" required>
+                    {% for product in cart_products %}
+                        <option value="{{ product.name }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+
+                <label for="location2">Location 2:</label>
+                <select id="location2" name="location2" required>
+                    {% for product in cart_products %}
+                        <option value="{{ product.name }}">{{ product.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+
+                <input type="submit" value="{{ google_maps_url }}" name="{{ google_maps_url }}"> <!-- เปลี่ยนชื่อปุ่มเป็น 'navigate' -->
+            {% endif %}
+            
+            {% if google_maps_url %}
+                <p><a href="{{ google_maps_url }}" target="_blank">นำทางด้วย Google Maps</a></p>
+            {% endif %}
+        </form> {% endcomment %}
+        
         <div class="container">
         {% if cart_products %}
             {% for product in cart_products %}
@@ -147,6 +214,14 @@
     <br></br>
 
 <script>
+
+    function openLink() {
+        // เรียกใช้งานตัวแปร link_html ที่ถูกสร้างขึ้นมาจาก Django
+        var google_maps_url = "{{ google_maps_url }}";
+        // เปิดลิงก์ในหน้าใหม่
+        window.open(google_maps_url);
+    }
+
 // Delete Item From Cart
 $(document).on('click', '.delete-product', function(e){
     e.preventDefault();
