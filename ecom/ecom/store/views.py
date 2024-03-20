@@ -34,6 +34,9 @@ def search_view(request):
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def searchWriter(request, writer):
+    # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+    username = request.user.username
+
     # ดึงข้อมูลผู้ใช้งานปัจจุบัน
     products = Product.objects.filter(writer=writer)
 
@@ -46,12 +49,16 @@ def searchWriter(request, writer):
         'categories': categories,
         'writer': writer,
         'productCount': productCount,
+        'username': username,
     })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 # ฟังก์ชันค้นหาด้วย ชื่อโรงแรม หรือ ที่อยู่ เช่น ตำบล อำเภอ จังหวัด
 def searchAddress(request):
+    # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+    username = request.user.username
+
     categories = Category.objects.all()
     products = None  # กำหนดค่าเริ่มต้นให้เป็น None
 
@@ -71,6 +78,7 @@ def searchAddress(request):
             'products': products,
             'categories': categories,
             'productsCount': productsCount,
+            'username': username,
         })
     else:
         return render(request, "frontend/searchAddress.html", {'categories': categories})
@@ -104,6 +112,8 @@ def searchAddress(request):
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
 def searchCategory(request, cat_id):
+    # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+    username = request.user.username
     # ดึงข้อมูลไอดีแต่ละจังหวัดที่อยู่ในตางรางข้อมูลโรงแรม
     products = Product.objects.filter(category_id = cat_id)
     # ดึงชื่อจังหวัดมาแสดงผล
@@ -118,22 +128,28 @@ def searchCategory(request, cat_id):
         'categories': categories,
         'categoryName': categoryName,
         'productCount': productCount,
+        'username': username,
     })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')
 def product(request, pk):
+    # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+    username = request.user.username
     product = Product.objects.get(id=pk)
 
     categories = Category.objects.all()
     return render(request, 'frontend/product.html', {
         'product': product,
         'categories': categories,
+        'username': username,
         })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def home(request):
+    # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
+    username = request.user.username
     # เรียงลำดับตามคีย์หลักตามลำดับจากมากไปน้อย หรือ ข้อมูลใหม่ ไป ข้อมูลเก่า
     products = Product.objects.all().order_by('-pk')
     
@@ -185,6 +201,7 @@ def home(request):
         'categories': categories,
         'categoryName': categoryName,
         'latest': latest,
+        'username': username,
         })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
@@ -242,7 +259,8 @@ def register_user(request):
             # log in user
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ("ท่านได้สมัครสมาชิกเสร็จแล้วเรียบร้อย! {{username}}ยินดีต้อนรับครับ!"))
+            messages.success(request, f"ท่านได้สมัครสมาชิกเสร็จแล้วเรียบร้อย! {username} ยินดีต้อนรับครับ!")
+
             return redirect('home')
         else:
             messages.error(request, ("เกิดข้อผิดพลาด! เกิดปัญหาในการสมัครสมาชิก กรุณาลองใหม่อีกครั้ง......"))

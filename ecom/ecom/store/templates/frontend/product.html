@@ -50,51 +50,55 @@
           <div class="card-body">
             
             <center>
-
-                <h3 class="card-title">ชื่อโรงแรม: {{ product.name }}</h3>
-                <br>
-                
-                <p class="card-text">ที่อยู่โรงแรม: {{ product.address }}</p>
-                <br>
-
-                <p class="card-text">เบอร์โทรติดต่อ: {{ product.phone_number }}</p>
-                <br>
-
-                <!--
-                <p class="card-text">{{ product.latitude }}</p>
-                <br>
-
-                <p class="card-text">{{ product.longitude }}</p>
-                <br>
-                -->
-
-                {% if product.website == "ไม่ทราบ" %}
-                  <p>เว็บไซต์โรงแรม: ไม่ทราบ</p>
-                {% else %}
-                    <p>
-                        <a href="{{ product.website }}" class="card-text" target="_blank">เว็บไซต์โรงแรม: {{ product.website }}</a>
-                    </p>
-                {% endif %}
-            
-                <br>
-                
-                <p class="card-text">วันที่: {{ product.uploadDate }}</p>
-                <br>
-                
+                <br/>
                 <a href="{% url 'searchCategory' product.category_id %}" class="btn btn-warning">จังหวัด: {{ product.category }}</a>
                 &nbsp;
                 
                 <!-- ตรวจสอบตำแหน่งบนแผนที่ ว่า มีข้อมูลหรือไม่? Empty, NOT NULL, None-->
                 {% if product.map_url %}
-                  <a href="{{ product.map_url }}" class="btn btn-primary" target="_blank">นำทาง <i class="bi bi-geo-alt"></i></a>
+                  <a href="{{ product.map_url }}" class="btn btn-success text-white border border-white" target="_blank"><i class="bi bi-geo-alt"> Google Maps</i></a>
                 {% else %}
-                  <!-- กรณีไม่มีข้อมูลใน product.map_url -->
-                  <a href="#"class="btn btn-white">ไม่มีข้อมูลตำแหน่งบนแผนที่ <i class="bi bi-geo-alt"></i></a>
+                  <!-- ไม่มีข้อมูลตำแหน่งบนแผนที่ href="#" ให้แสดงหน้าเว็บเดิม และไม่ต้องเปิดเป็นแทบใหม่ -->
+                  <a href="#" class="btn btn-success text-white border border-white"><i class="bi bi-geo-alt"> Google Maps: ไม่มีข้อมูล</i></a>
                 {% endif %}
-            
                 &nbsp;
+                
+                {% if product.website == "ไม่ทราบ" %}
+                  <!-- ไม่มีข้อมูลเว็บไซต์โรงแรม href="#" ให้แสดงหน้าเว็บเดิม และไม่ต้องเปิดเป็นแทบใหม่-->
+                  <a href="#" class="btn btn-primary"><i class="bi bi-globe"></i> เว็บไซต์โรงแรม: ไม่มีข้อมูล</a>
+                {% else %}
+                  <a href="{{ product.website }}" class="btn btn-primary" target="_blank"><i class="bi bi-globe"></i> เว็บไซต์โรงแรม</a>
+                {% endif %}
+                
+                <br><br/>
 
-                <a href="{% url 'home' %}" class="btn btn-secondary">กลับสู่หน้าหลัก</a>
+                <h3 class="card-title">ชื่อโรงแรม: {{ product.name }}</h3>
+                <h5 class="card-text">ที่อยู่โรงแรม: {{ product.address }}</h5>
+                <br/>
+
+                <h5 class="card-text text-danger">**กรุณาติดต่อสอบถามกับทางโรงแรมก่อนเข้าพักครับ</h5>
+                <br/>
+                <h4 class="card-text">เบอร์โทรติดต่อ: {{ product.phone_number }}</h4>
+                <!--
+                <p class="card-text">{{ product.latitude }}</p>
+                <p class="card-text">{{ product.longitude }}</p>
+                -->
+                <br/>
+                
+               
+                <p class="card-text">วันที่: {{ product.uploadDate }}</p>
+                {% comment %} <p class="card-text">รหัสโรงแรม: {{ product.id }}</p> {% endcomment %}
+                
+                <br/>
+                <a href="{% url 'home' %}" class="btn btn-white" style="color: blue; text-decoration: underline;">กลับสู่หน้าหลัก</a>
+
+                &nbsp;
+                <button type="button" value="{{ product.id }}" class="btn btn-outline-dark" id="add-cart">
+                  <i class="bi bi-heart-fill me-1" style="color: red;"></i>
+                  ถูกใจ
+                </button>
+                
+                
 
                 {% comment %} <h5 class="card-title">ชื่อโรงแรม: {{ product.name }}</h5>
                 
@@ -135,5 +139,32 @@
 <br></br>
 <br></br>
 <br></br>
+
+<script>
+// Check if button pressed
+$(document).on('click', '#add-cart', function(e){
+  e.preventDefault();
+  $.ajax({
+      type: 'POST',
+      url: '{% url 'cart_add' %}',
+      data: {
+          product_id: $('#add-cart').val(),
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          action: 'post',          
+      },
+
+      success: function(json){
+          // console.log(json)
+          document.getElementById("cart_quantity").
+              textContent = json.qty
+      },
+
+      error: function(xhr, errmsg, err){
+
+      },
+  });
+})
+
+</script>
 
 {% endblock %}

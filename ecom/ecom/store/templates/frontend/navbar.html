@@ -1,130 +1,199 @@
 <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'home' %}">โรงแรมสุนัขเข้าพักได้</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">หน้าหลัก</a></li>
-                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">ติดต่อ</a></li> {% endcomment %}
-                        {% if request.user.is_superuser %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'panel' %}">แอดมิน</a></li>
-                        {% endif %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="{% url 'home' %}">โรงแรมสุนัขเข้าพักได้</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">หน้าหลัก</a></li>
+                {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">ติดต่อ</a></li> {% endcomment %}
+                {% if request.user.is_superuser %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'panel' %}">แอดมิน</a></li>
+                {% endif %}
 
-                    {% if user.is_authenticated %}
-                        <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a></li>
-                    {% else %}
-                        <li class="nav-item active"><a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a></li>
+            {% if user.is_authenticated %}
+                <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a></li>
+            {% else %}
+                <li class="nav-item active"><a class="nav-link" href="{% url 'login' %}">เข้าสู่ระบบ</a></li>
 
-                        {% comment %} <li class="nav-item active"><a class="nav-link" href="{% url 'register' %}">สมัครสมาชิก</a></li> {% endcomment %}
-                    {% endif %}
-                        
-                        {% comment %} <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'พังงา' %}">Cat Books</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'ภูเก็ต' %}">Dog Books</a></li>
-                            </ul>
-                        </li> {% endcomment %}
+                {% comment %} <li class="nav-item active"><a class="nav-link" href="{% url 'register' %}">สมัครสมาชิก</a></li> {% endcomment %}
+            {% endif %}
+                
+                {% comment %} <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'พังงา' %}">Cat Books</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'ภูเก็ต' %}">Dog Books</a></li>
+                    </ul>
+                </li> {% endcomment %}
 
-                        <!-- จังหวัด แบบ Dropdown ใช้งานยาก เมื่อมีรายการจังหวัดมากกว่า 20 -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">จังหวัด</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {% for category in categories %}
-                                    <li><a class="dropdown-item" href="{% url 'searchCategory' category.id %}">{{category.name}}</a></li>
-                                {% endfor %}
-                            </ul>
-                        </li>
+                <!-- จังหวัด แบบ Dropdown ใช้งานยาก เมื่อมีรายการจังหวัดมากกว่า 20 -->
+                {% comment %} <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">จังหวัด</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'searchCategory' category.id %}">{{category.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li> {% endcomment %}
 
-                        <!-- จังหวัดในแต่ละภาคของประเทศไทย -->
-                        <div class="dropdown">
-                            <a class="btn btn-white dropdown-toggle text-start" type="button" id="provinceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                แยกตามภาค
-                            </a>                            
-                            <div class="dropdown-menu" aria-labelledby="provinceDropdown">
-                                <div class="sub-menu">
-                                    <button class="dropdown-item dropdown-toggle" type="button">ภาคเหนือ 9 จังหวัด</button>
-                                    <div class="sub-menu-content dropdown-menu">
-                                        <a class="dropdown-item" href="{% url 'searchCategory' 13 %}">เชียงราย</a>
-                                        <a class="dropdown-item" href="#">เชียงใหม่</a>
-                                        <a class="dropdown-item" href="#">น่าน</a>
-                                        <a class="dropdown-item" href="#">พะเยา</a>
-                                        <a class="dropdown-item" href="#">แพร่</a>
-                                        <a class="dropdown-item" href="#">แม่ฮ่องสอน</a>
-                                        <a class="dropdown-item" href="#">ลำปาง</a>
-                                        <a class="dropdown-item" href="#">ลำพูน</a>
-                                        <a class="dropdown-item" href="#">อุตรดิตถ์</a>
-                                    </div>
-                                </div>
-                                <div class="sub-menu">
-                                    <button class="dropdown-item dropdown-toggle" type="button">ภาคตะวันออกเฉียงเหนือ 20 จังหวัด</button>
-                                    <div class="sub-menu-content dropdown-menu">
-                                        <a class="dropdown-item" href="#">กาฬสินธุ์</a>
-                                        <a class="dropdown-item" href="#">ขอนแก่น</a>
-                                        <a class="dropdown-item" href="#">ชัยภูมิ</a>
-                                        <a class="dropdown-item" href="#">นครพนม</a>
-                                        <a class="dropdown-item" href="#">นครราชสีมา</a>
-                                        <a class="dropdown-item" href="#">บึงกาฬ</a>
-                                        <a class="dropdown-item" href="#">บุรีรัมย์</a>
-                                        <a class="dropdown-item" href="#">มหาสารคาม</a>
-                                        <a class="dropdown-item" href="#">มุกดาหาร</a>
-                                        <a class="dropdown-item" href="#">ยโสธร</a>
-                                        <a class="dropdown-item" href="#">ร้อยเอ็ด</a>
-                                        <a class="dropdown-item" href="#">เลย</a>
-                                        <a class="dropdown-item" href="#">ศรีสะเกษ</a>
-                                        <a class="dropdown-item" href="#">สกลนคร</a>
-                                        <a class="dropdown-item" href="#">สุรินทร์</a>
-                                        <a class="dropdown-item" href="#">หนองคาย</a>
-                                        <a class="dropdown-item" href="#">หนองบัวลำภู</a>
-                                        <a class="dropdown-item" href="#">อุดรธานี</a>
-                                        <a class="dropdown-item" href="#">อุบลราชธานี</a>
-                                        <a class="dropdown-item" href="#">อำนาจเจริญ</a>
+                <!-- จังหวัดในแต่ละภาคของประเทศไทย -->
+                <div class="dropdown">
+                    <a class="btn btn-white dropdown-toggle text-start" type="button" id="provinceDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        จังหวัดแยกตามภาค
+                    </a>                            
+                    <div class="dropdown-menu" aria-labelledby="provinceDropdown">
 
-                                    </div>
-                                </div>
-                                <div class="sub-menu">
-                                    <button class="dropdown-item dropdown-toggle" type="button">C: ภาคใต้</button>
-                                    <div class="sub-menu-content dropdown-menu">
-                                        <a class="dropdown-item" href="#">1. พังงา</a>
-                                        <a class="dropdown-item" href="#">2. ภูเก็ต</a>
-                                    </div>
-                                </div>
+                        <div class="sub-menu">
+                            <button class="dropdown-item dropdown-toggle" type="button">ภาคเหนือ 9 จังหวัด</button>
+                            <div class="sub-menu-content dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'searchCategory' 13 %}">เชียงราย</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 14 %}">เชียงใหม่</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 26 %}">น่าน</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 41 %}">พะเยา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 40 %}">แพร่</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 45 %}">แม่ฮ่องสอน</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 53 %}">ลำปาง</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 54 %}">ลำพูน</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 75 %}">อุตรดิตถ์</a>
                             </div>
                         </div>
-                        
-                        
-                    </ul>
+                        <div class="sub-menu">
+                            <button class="dropdown-item dropdown-toggle" type="button">ภาคตะวันออกเฉียงเหนือ 20 จังหวัด</button>
+                            <div class="sub-menu-content dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'searchCategory' 4 %}">กาฬสินธุ์</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 6 %}">ขอนแก่น</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 11 %}">ชัยภูมิ</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 20 %}">นครพนม</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 21 %}">นครราชสีมา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 27 %}">บึงกาฬ</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 28 %}">บุรีรัมย์</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 43 %}">มหาสารคาม</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 44 %}">มุกดาหาร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 47 %}">ยโสธร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 48 %}">ร้อยเอ็ด</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 55 %}">เลย</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 56 %}">ศรีสะเกษ</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 57 %}">สกลนคร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 69 %}">สุรินทร์</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 70 %}">หนองคาย</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 71 %}">หนองบัวลำภู</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 73 %}">อุดรธานี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 76 %}">อุบลราชธานี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 77 %}">อำนาจเจริญ</a>
 
-                    {% comment %} <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form> {% endcomment %}
-
-                    <form class="d-flex" method=POST action="{% url 'searchAddress' %}">
-                        {% csrf_token %}
-                        <input class="form-control me-2" type="search" placeholder="ค้นหาชื่อโรงแรมหรือที่อยู่" aria-label="Search" name="searchAddress">
-                        <button class="btn btn-outline-primary d-flex align-items-center" type="submit">
-                            <i class="bi bi-search me-1"></i>
-                            <b>ค้นหา</b>
-                        </button>
-                        
-                    </form>
-
-                    &nbsp;
-
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi bi-heart-fill me-1" style="color: red;"></i>
-                            โรงแรมโดนใจ
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
+                            </div>
+                        </div>
+                        <div class="sub-menu">
+                            <button class="dropdown-item dropdown-toggle" type="button">ภาคใต้ 14 จังหวัด</button>
+                            <div class="sub-menu-content dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'searchCategory' 2 %}">กระบี่</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 12 %}">ชุมพร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 15 %}">ตรัง</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 22 %}">นครศรีธรรมราช</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 25 %}">นราธิวาส</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 32 %}">ปัตตานี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 34 %}">พังงา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 35 %}">พัทลุง</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 42 %}">ภูเก็ต</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 46 %}">ยะลา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 49 %}">ระนอง</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 59 %}">สตูล</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 58 %}">สงขลา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 68 %}">สุราษฎร์ธานี</a>
+                            </div>
+                        </div>
+                        <div class="sub-menu">
+                            <button class="dropdown-item dropdown-toggle" type="button">ภาคกลาง 22 จังหวัด</button>
+                            <div class="sub-menu-content dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'searchCategory' 1 %}">กรุงเทพมหานคร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 5 %}">กำแพงเพชร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 10 %}">ชัยนาท</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 18 %}">นครนายก</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 19 %}">นครปฐม</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 23 %}">นครสวรรค์</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 24 %}">นนทบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 29 %}">ปทุมธานี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 33 %}">พระนครศรีอยุธยา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 36 %}">พิจิตร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 37 %}">พิษณุโลก</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 39 %}">เพชรบูรณ์</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 52 %}">ลพบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 60 %}">สมุทรปราการ</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 61 %}">สมุทรสงคราม</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 62 %}">สมุทรสาคร</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 64 %}">สระบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 65 %}">สิงห์บุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 66 %}">สุโขทัย</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 67 %}">สุพรรณบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 72 %}">อ่างทอง</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 74 %}">อุทัยธานี</a>
+                            </div>
+                        </div>
+                        <div class="sub-menu">
+                            <button class="dropdown-item dropdown-toggle" type="button">ภาคตะวันออก 7 จังหวัด</button>
+                            <div class="sub-menu-content dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'searchCategory' 7 %}">จันทบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 8 %}">ฉะเชิงเทรา</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 9 %}">ชลบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 16 %}">ตราด</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 31 %}">ปราจีนบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 50 %}">ระยอง</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 63 %}">สระแก้ว</a>
+                            </div>
+                        </div>
+                        <div class="sub-menu">
+                            <button class="dropdown-item dropdown-toggle" type="button">ภาคตะวันตก 5 จังหวัด</button>
+                            <div class="sub-menu-content dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'searchCategory' 3 %}">กาญจนบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 17 %}">ตาก</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 30 %}">ประจวบคีรีขันธ์</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 38 %}">เพชรบุรี</a>
+                                <a class="dropdown-item" href="{% url 'searchCategory' 51 %}">ราชบุรี</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
+    
+            </ul>
+
+            {% comment %} <form class="d-flex">
+                <button class="btn btn-outline-dark" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </button>
+            </form> {% endcomment %}
+
+            <form class="d-flex" method=POST action="{% url 'searchAddress' %}">
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" placeholder="ค้นหาชื่อโรงแรมหรือที่อยู่" aria-label="Search" name="searchAddress">
+                <button class="btn btn-outline-primary d-flex align-items-center" type="submit">
+                    <i class="bi bi-search me-1"></i>
+                    <b>ค้นหา</b>
+                </button>
+                
+            </form>
+
+            &nbsp;
+            <form class="d-flex">
+                <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
+                    <i class="bi bi-heart-fill me-1" style="color: red;"></i>
+                    โรงแรมโดนใจ
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" 
+                    id="cart_quantity">{{ cart|length }}</span>
+                </a>
+            </form>
+
+            &nbsp;
+            <form class="d-flex">
+                <a href="#" class="btn btn-primary">
+                    <i class="bi bi-person-circle"></i>
+                  {{ username }}
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>

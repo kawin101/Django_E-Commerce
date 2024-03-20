@@ -44,7 +44,7 @@
                 <th>รูปภาพ</th>
                 <th class="text-right hidden-xs">จังหวัด</th>
                 <th class="text-right hidden-xs">แผนที่</th>
-                {% comment %} <th class="text-right hidden-xs">เว็บไซต์</th> {% endcomment %}
+                <th class="text-right hidden-xs">เว็บไซต์</th>
                 <th class="hidden-xs text-center">วันที่</th>
                 <th class="text-center">แก้ไข/ลบ</th>
             </tr>
@@ -83,14 +83,20 @@
                 <td class="text-center">{{ product.category }}</td>
 
                 <!-- ตำแหน่งบนแผนที่ -->
-                <td class="text-right hidden-xs" style="max-width: 15ch;">
-                    <a href="{{ product.map_url }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
+                {% if product.map_url != "ไม่ทราบ" %}
+                    <td class="text-right hidden-xs" style="max-width: 15ch;">
+                        <a href="{{ product.map_url }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
+                            {{ product.map_url }}
+                        </a>
+                    </td>
+                {% else%}
+                <td class="text-right hidden-xs" style="max-width: 15ch;"> 
                         {{ product.map_url }}
-                    </a>
                 </td>
+                {% endif %}
 
                 <!-- เว็บไซต์โรงแรม -->
-                {% comment %} {% if product.website != "ไม่ทราบ" %}
+                {% if product.website != "ไม่ทราบ" %}
                     <td class="text-right hidden-xs" style="max-width: 15ch;">
                         <a href="{{ product.website }}" style="word-wrap: break-word; word-break: break-all;" target="_blank"> 
                             {{ product.website|slice:":69" }}
@@ -100,7 +106,7 @@
                     <td class="text-right hidden-xs" style="word-wrap: break-word; word-break: break-all; max-width: 15ch;">
                         {{ product.website }}
                     </td> 
-                {% endif %} {% endcomment %}
+                {% endif %}
                 
                 <!-- วันที่ -->
                 <td class="hidden-xs text-center">{{product.uploadDate}}</td>

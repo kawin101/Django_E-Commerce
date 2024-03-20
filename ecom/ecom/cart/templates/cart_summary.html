@@ -1,4 +1,3 @@
-
 {% extends 'frontend/base.html' %}
 
 {% load static %}
@@ -11,20 +10,170 @@
         <header class="bg-primary py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <br></br>
                     <h1 class="display-4 fw-bolder">ปักหมุดโรงแรมที่ท่านโดนใจ</h1>
                     <p class="lead fw-normal text-white-50 mb-0">โรงแรมเป็นมิตรกับสุนัข เพื่อคนรักสุนัข</p>
-                    <br></br>
                 </div>
             </div>
         </header>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
+        <br/>
+        <div class="container">
+        {% if cart_products %}
+            {% for product in cart_products %}
+            <br></br>
+            <br></br>
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <!-- รูปภาพจาก Google Map -->
+                  {% comment %} <img src="{{ product.first_photo_url }}" class="img-fluid rounded-start" alt="..."> {% endcomment %}
+                  
+                  <!-- แสดงรูปภาพโรงแรมจาก Google Map -->
+                  {% if product.first_photo_url == "ไม่มีรูปภาพ" %}
+                    <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url เท่ากับ "ไม่มีรูปภาพ" -->
+                    <center style="color: red;">
+                        <br></br>
+                        <p>
+                            <strong>ไม่มีรูปภาพโรงแรมจาก Google Map</strong>
+                            <i class="bi bi-geo-alt"></i>
+                            <br></br>
+                        </p>
+                        <br></br>
+                    </center>
+                  {% else %}
+                    <!-- ถ้าข้อมูลในตัวแปร product.first_photo_url มีรูปภาพ" -->
+                    <img src="{{ product.first_photo_url }}" class="d-block w-100" alt="{{ product.name }}" style="max-height: 450px; max-width: 100%; object-fit: cover;">
+                  {% endif %}
+        
+                  <br></br>
+                  <!-- ตรวจสอบว่าข้อมูลใน image ไม่ใช่ "ไม่มีข้อมูล" -->
+                  {% if product.image != "ไม่มีข้อมูล" %}
+                    <!-- รูปภาพจากการอัพโหลดไฟล์ลงเครื่อง -->
+                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+                  {% else %}
+                      <!-- ถ้าไม่มีข้อมูลใน product.image.url -->
+                      <center style="color: red;">
+                        <br></br>
+                        <i class="bi bi-x-lg"></i>
+                        <strong>ไม่มีรูปภาพน้องสุนัขจากการอัพโหลดไฟล์</strong>
+                        <br></br>
+                        <br></br>
+                      </center>
+                  {% endif %}
+        
+        
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    
+                    <center>
+                        <br/>
+                        <a href="{% url 'searchCategory' product.category_id %}" class="btn btn-warning">จังหวัด: {{ product.category }}</a>
+                        &nbsp;
+                        
+                        <!-- ตรวจสอบตำแหน่งบนแผนที่ ว่า มีข้อมูลหรือไม่? Empty, NOT NULL, None-->
+                        {% if product.map_url %}
+                          <a href="{{ product.map_url }}" class="btn btn-success text-white border border-white" target="_blank"><i class="bi bi-geo-alt"> Google Maps</i></a>
+                        {% else %}
+                          <!-- ไม่มีข้อมูลตำแหน่งบนแผนที่ href="#" ให้แสดงหน้าเว็บเดิม และไม่ต้องเปิดเป็นแทบใหม่ -->
+                          <a href="#" class="btn btn-success text-white border border-white"><i class="bi bi-geo-alt"> Google Maps: ไม่มีข้อมูล</i></a>
+                        {% endif %}
+                        &nbsp;
+                        
+                        {% if product.website == "ไม่ทราบ" %}
+                          <!-- ไม่มีข้อมูลเว็บไซต์โรงแรม href="#" ให้แสดงหน้าเว็บเดิม และไม่ต้องเปิดเป็นแทบใหม่-->
+                          <a href="#" class="btn btn-primary"><i class="bi bi-globe"></i> เว็บไซต์โรงแรม: ไม่มีข้อมูล</a>
+                        {% else %}
+                          <a href="{{ product.website }}" class="btn btn-primary" target="_blank"><i class="bi bi-globe"></i> เว็บไซต์โรงแรม</a>
+                        {% endif %}
+                        
+                        <br><br/>
+        
+                        <h3 class="card-title">ชื่อโรงแรม: {{ product.name }}</h3>
+                        <h5 class="card-text">ที่อยู่โรงแรม: {{ product.address }}</h5>
+                        <br/>
+        
+                        <h5 class="card-text text-danger">**กรุณาติดต่อสอบถามกับทางโรงแรมก่อนเข้าพักครับ</h5>
+                        <br/>
+                        <h4 class="card-text">เบอร์โทรติดต่อ: {{ product.phone_number }}</h4>
+                        <!--
+                        <p class="card-text">{{ product.latitude }}</p>
+                        <p class="card-text">{{ product.longitude }}</p>
+                        -->
+                        <br/>
+                    
+                        <p class="card-text">วันที่: {{ product.uploadDate }}</p>
+                        
+                        <br/>
+                        <a href="{% url 'home' %}" class="btn btn-white" style="color: blue; text-decoration: underline;">กลับสู่หน้าหลัก</a>
+                        
+                        <button type="button" data-index="{{product.id}}" 
+                            class="btn btn-danger delete-product">
+                            <i class="bi bi-trash-fill"></i> ลบออกจากโรงแรมโดนใจ
+                        </button>
 
+                    </center>
+        
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <center>
+                <br><br/>
+                <br><br/>
+                <br><br/>
+                <div class="alert alert-danger" role="alert">
+                    <h1 class="mb-4">ไม่มีโรงแรมที่ท่านโดนใจ!</h1>
+                </div>
+            </center>
+
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+        {% endif %}
+        </div>
+
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+    <br></br>
+
+<script>
+// Delete Item From Cart
+$(document).on('click', '.delete-product', function(e){
+    e.preventDefault();
+    // grab the product id
+    // var productid = $(this).data('index');
+
+    $.ajax({
+    type: 'POST',
+    url: '{% url 'cart_delete' %}',
+    data: {
+      product_id: $(this).data('index'),
+      csrfmiddlewaretoken: '{{ csrf_token }}',
+      action: 'post'
+    },
+    success: function(json){
+        //console.log(json)
+        //document.getElementById("cart_quantity").textContent = json.qty
+        location.reload();
+    },
+
+    error: function(xhr, errmsg, err){
+
+    },
+
+
+    });
+})
+</script>
 
 {% endblock %}

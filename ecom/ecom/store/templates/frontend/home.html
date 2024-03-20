@@ -8,16 +8,58 @@
         margin-top: 20px; /* Adjust this value as needed */
     }
 </style>
-        <!-- Header-->
-        <header class="bg-primary py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
+        <!-- Header bg-primary text-white -->
+        <header class="py-5">
+            <div class="container">
+                <div class="text-center">
                     <!-- รูปน้องสุนัข -->
-                    
+                    <style>
+                        .carousel-item img {
+                          height: 400px; /* ปรับความสูงตามที่ต้องการ */
+                          object-fit: cover; /* ปรับขนาดภาพให้พอดีกับพื้นที่ */
+                        }
+                      </style>
+                      
+                      <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                          <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="https://paapaii.com/wp-content/uploads/2019/08/300919-%E0%B8%9E%E0%B8%B2%E0%B9%84%E0%B8%9B-%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%9E%E0%B8%B1%E0%B8%81%E0%B8%AB%E0%B8%A1%E0%B8%B2%E0%B9%81%E0%B8%A1%E0%B8%A7cover-1024x683.png" class="d-block w-100" alt="...">
+                          </div>
+                          <div class="carousel-item" data-bs-interval="2000">
+                            <img src="https://t1.blockdit.com/photos/2021/09/6130db44b88c5b0ae0d9c3dd_800x0xcover_Iqh34aT9.jpg" class="d-block w-100" alt="...">
+                          </div>
+                          <div class="carousel-item">
+                            <img src="https://s359.kapook.com/pagebuilder/9c06378e-f7c4-486a-b567-849ca77d5cb8.jpg" class="d-block w-100" alt="...">
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                      
                     <!-- รูปน้องสุนัข -->
+                    </br>
 
-                    <h1 class="display-4 fw-bolder">โรงแรมสุนัขเข้าพักได้</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">โรงแรมเป็นมิตรกับสุนัข เพื่อคนรักสุนัข</p>
+                    <div class="bg-white py-5">
+                        <div class="container">
+                            <div class="text-center text-dark">
+                                <!-- <h1 class="display-4 fw-bolder">โรงแรมสุนัขเข้าพักได้</h1> -->
+                                <h1 class="display-4 fw-bolder ">โรงแรมเป็นมิตรกับสุนัข เพื่อคนรักสุนัข</h1>
+                                <!-- <p class="lead fw-normal text-50 mb-0">โรงแรมเป็นมิตรกับสุนัข เพื่อคนรักสุนัข</p> -->
+                                <p class="lead fw-normal text-50 mb-0">ยินดีต้อนรับทุกท่านครับ</p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -229,20 +271,21 @@
                                         -->
 
                                         <div class="card-body">
-                                            
                                             <h5 class="card-title"><a href="{% url 'product' product.id %}">{{product.name}}</a></h5>
-                                            <br>
+                                            
+                                            {% comment %} <h5 class="card-title">{{product.name}}</h5> {% endcomment %}
+                                            
                                             <p class="card-text">{{product.address}}</p>
                                             
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group">
                                                     <a href="{% url 'searchCategory' product.category_id %}" class="btn btn-warning">{{product.category}}</a>
                                                 </div>
-                                                <div class="btn-group">
-                                                    <a href="{% url 'product' product.id %}" class="btn btn-outline-primary">ดูข้อมูล</a>
-                                                    <a href="#" class="btn btn-outline-dark"><i class="bi bi-heart-fill me-1" style="color: red;"></i>ถูกใจ</a>
-                                                </div>
                                                 <small class="text-muted">{{product.uploadDate}}</small>
+                                                <div class="btn-group">
+                                                    <a href="{% url 'product' product.id %}" class="btn btn-outline-primary">ดูข้อมูลโรงแรม</a>
+                                                    {% comment %} <a href="#" class="btn btn-outline-dark"><i class="bi bi-heart-fill me-1" style="color: red;"></i>ถูกใจ</a> {% endcomment %}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
