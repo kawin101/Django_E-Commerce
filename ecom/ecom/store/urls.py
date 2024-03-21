@@ -12,5 +12,5 @@ urlpatterns = [
     path('category/<int:cat_id>', views.searchCategory, name='searchCategory'),
     path('writer/<str:writer>', views.searchWriter, name='searchWriter'),
     path('searchAddress', views.searchAddress, name='searchAddress'),
-    path('search/', views.search_view, name='search_view'),
+
 ]

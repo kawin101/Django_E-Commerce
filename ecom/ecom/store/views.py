@@ -14,24 +14,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
-@login_required(login_url='login')  
-# ค้นหาด้วยชื่อโรงแรมและแสดงการค้นหาล่าสุด 1 โรงแรม (ตัวทดสอบ) 
-def search_view(request):
-    recent_searches = []  # Implement logic to retrieve recent searches from a database
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            search_query = form.cleaned_data['search_query']
-            products = Product.objects.filter(name__icontains=search_query)
-            # Implement logic to store recent searches in the database
-            recent_searches.append(search_query)
-    else:
-        form = SearchForm()
-        products = []
-
-    return render(request, 'frontend/search.html', {'form': form, 'products': products, 'recent_searches': recent_searches})
-
-# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def searchWriter(request, writer):
     # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก

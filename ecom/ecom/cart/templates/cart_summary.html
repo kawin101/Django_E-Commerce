@@ -17,7 +17,61 @@
         </header>
         <br/>
 
-        <h2>Navigation</h2>        
+        <div class="container">
+                  
+            <form action="" method="post">
+                {% csrf_token %}
+                {% if cart_products %}
+                
+                <h2 class="text-center">โปรดเลือก โรงแรมต้องการจะไปครับ</h2>  
+                
+                <div class="row g-2">
+                    <div class="col-md">
+                        <div class="form-floating">
+
+                    <select id="location1" name="location1" required class="form-control">
+                        {% for product in cart_products %}
+                            <option value="{{ product.name }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="location1">โรงแรม 1</label>
+
+                        </div>
+                    </div>                   
+                    <div class="col-md">
+                        <div class="form-floating">
+    
+                    <select id="location2" name="location2" required class="form-control">
+                        {% for product in cart_products %}
+                            <option value="{{ product.name }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="location2">โรงแรม 2</label>
+
+                </div>
+            </div>
+          </div>
+            <p></p>
+            <p>
+            <div class="text-center">
+               <!-- เปลี่ยนชื่อปุ่มเป็น 'navigate' และเพิ่มคลาส CSS ของ Bootstrap -->
+                <input class="btn btn-primary" type="submit" value="ยืนยัน" name="navigate">
+                <p></p>
+                {% if navigate_message %}
+                    <!-- โดยเราใช้ตัวกรอง safe เพื่อรับรองว่า HTML ที่กำหนดในตัวแปร navigate_message จะถูกแสดงผลในรูปแบบที่ถูกต้องบนหน้าเว็บไซต์ครับ -->
+                    <p>{{ navigate_message | safe }}</p>
+                {% endif %}
+                {% if google_maps_url %}
+                    <p><a class="btn btn-success text-white border border-white" href="{{ google_maps_url }}" target="_blank">ดูเส้นทางบน Google Maps</a></p>
+                {% endif %}
+            </div>
+            </p>
+            {% endif %}
+            </form>
+        </div> 
+
+
+       {% comment %} <h2>Navigation</h2>        
 
         <form action="" method="post" onsubmit="openLink()">
             {% csrf_token %}
@@ -41,17 +95,17 @@
                     <!-- เปลี่ยนชื่อปุ่มเป็น 'navigate' -->
                     <input type="submit" value="Google Maps" name="navigate" class="btn btn-primary">
                 </p>
-            {% endif %}
+            {% endif %} 
 
-            {% comment %} {% if navigate_message %}
+             {% if navigate_message %}
             <p>{{ navigate_message }}</p>
             {% endif %}
         
             {% if google_maps_url %}
             <p><a class="btn btn-primary" href="{{ google_maps_url }}" target="_blank">View route on Google Maps</a></p>
-            {% endif %} {% endcomment %}
+            {% endif %} 
             
-        </form>
+        </form> {% endcomment %}
 
 
         <!-- นำทางด้วย Google Maps (ทำงานได้ แต่ต้องปรับปรุง) -->
