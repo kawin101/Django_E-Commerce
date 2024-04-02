@@ -4,9 +4,9 @@
 - https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe
 
 ## Create database on phpMyAdmin
-- Open your XAMPP and then click 'Admin' button rows of MySQL /
-- Database name: myhotels /
-- type: utf8_general_ci /
+- Open your XAMPP and then click 'Admin' button rows of MySQL ./
+- Database name: myhotels ./
+- type: utf8_general_ci ./
 
 ## Make a new dir
 cd to dir /
