@@ -17,8 +17,8 @@ mkdir floder to keep your file \
 clone repository to new directory 
 
 /c/Django_E-Commerce/ 
-- /ecom 
-- /virt 
+- ecom 
+- virt 
 and cd ecom/ \
 /c/Django_E-Commerce/ecom 
 
