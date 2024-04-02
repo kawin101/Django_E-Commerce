@@ -1,0 +1,5 @@
+* ต้องลบฐานข้อมูล myhotels ใน xampp ออกก่อนแล้วค่อย ใช้คำสั่ง ไปที่ drop database
+rm -r myapp/migrations # ลบชุดฐานข้อมูลเดิม
+python manage.py flush
+python manage.py makemigrations myapp # สร้างฐานข้อมูลใหม่ อ้างอิงตาม models.py
+python manage.py migrate # สร้างชุดข้อมูลทั้งหมด

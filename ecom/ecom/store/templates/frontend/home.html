@@ -295,7 +295,7 @@
                             <hr class="my-4">
 
                             <!-- แสดงเลขหน้าปัจจุบันและทั้งหมด-->
-                            <div class="row">
+                            {% comment %} <div class="row">
                                 <div class="col-md-12">
                                     <nav aria-label="Page navigation">
                                         {% if products.paginator.num_pages > 1 %}
@@ -313,7 +313,57 @@
                                         {% endif %}
                                     </nav>
                                 </div>
-                            </div> 
+                            </div> {% endcomment %}
+                            
+                            <!--
+                                หน้าที่ 1 
+                                วนลูป แสดงผล 5 หน้าก่อน และ แสดงผล 5 หน้าต่อไป  
+                                หน้าสุดท้าย
+                            -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <nav aria-label="Page navigation">
+                                        {% if products.paginator.num_pages > 1 %}
+                                            <ul class="pagination">
+                                                {% if products.number > 3 %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page=1">1</a>
+                                                    </li>
+                                                    {% if products.number > 3 %}
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                            
+                                                {% for page_number in products.paginator.page_range %}
+                                                    {% if page_number >= products.number|add:'-2' and page_number <= products.number|add:'2' %}
+                                                        <li class="page-item {% if products.number == page_number %}active{% endif %}">
+                                                            {% if products.number != page_number %}
+                                                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                                                            {% else %}
+                                                                <span class="page-link">{{ page_number }}</span>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endif %}
+                                                {% endfor %}
+                            
+                                                {% if products.paginator.num_pages > products.number|add:'2' %}
+                                                    {% if products.paginator.num_pages > products.number|add:'3' %}
+                                                        <li class="page-item disabled">
+                                                            <span class="page-link">...</span>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ products.paginator.num_pages }}">{{ products.paginator.num_pages }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        {% endif %}
+                                    </nav>
+                                </div>
+                            </div>
+                            
                             <br></br>
                         </div>
                     <!-- 

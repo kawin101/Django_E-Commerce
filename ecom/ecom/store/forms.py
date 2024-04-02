@@ -2,6 +2,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
+# นำเข้าโมเดลข้อมูลรีวิว
+from .models import Review
+
+class ReviewForm(forms.ModelForm):
+    # เพิ่ม widget สำหรับให้ผู้ใช้กรอกข้อความ
+    text = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50}))
+
+    class Meta:
+        model = Review
+        fields = ['text', 'rating']
+        widgets = {
+            'rating': forms.NumberInput(attrs={'step': '0.01', 'min': '0', 'max': '5'})
+        }
+
 # สร้างแบบฟอร์มสำหรับการค้นหาและเก็บข้อมูลล่าสุดที่ค้นหาไว้ในตัวแปร 'search_query'
 class SearchForm(forms.Form):
     search_query = forms.CharField(max_length=255)

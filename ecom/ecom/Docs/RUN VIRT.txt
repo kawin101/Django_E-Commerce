@@ -1,0 +1,12 @@
+# สร้างตัวจำลองสภาพแวดล้อมของภาษา Python
+python -m venv virt
+
+# เปิดใช้งานตัวจำลองสภาพแวดล้อมของ Django Python
+source virt/Scripts/activate
+
+# ตรวจสอบเครื่องมือ
+pip freeze | pip list
+
+# ติดตั้งเครื่องมือ ไฟล์ requirements อยู่ในโฟลเดอร์เดียวกับ manage.py
+pip install -r requirements.txt
+

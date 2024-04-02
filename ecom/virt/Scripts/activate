@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\kawin101\Desktop\Django_E-Commerce\ecom\virt"
+VIRTUAL_ENV="C:\Django_E-Commerce\ecom\virt"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

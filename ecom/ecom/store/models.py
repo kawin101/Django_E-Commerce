@@ -1,4 +1,10 @@
+# นำเข้าโครงสร้างข้อมูล
 from django.db import models
+# นำข้อมูลโมเดลระบบยืนยันตัวตนของผู้ใช้งาน
+from django.contrib.auth.models import User
+# นำเข้าตัวเลือก ตัวเลข 1 - 5 ในโมเดลรีวิวโรงแรม
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 import datetime
 
 # จังหวัดทั้งหมด ของ โรงแรม
@@ -71,6 +77,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class Review(models.Model):
+    # ผู้เขียนรีวิว
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # โรงแรมที่ถูกรีวิว
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    # คะแนนการรีวิว
+    rating = models.FloatField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    # เนื้อหารีวิว
+    text = models.TextField(max_length=999)
+    # วันที่
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"รีวิวโดยท่าน {self.user.username} for {self.product.name}"
 
 # Customer Orders
 class Order(models.Model):

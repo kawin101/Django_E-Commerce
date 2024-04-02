@@ -13,6 +13,25 @@ from django.contrib.auth.decorators import login_required
 # หากคุณต้องการให้ค้นหาข้อมูลโรงแรมด้วยเงื่อนไข "name" หรือ "address" ใน Django ORM คุณสามารถใช้ Q objects ร่วมกับ | (pipe) operator เพื่อรวมเงื่อนไขที่ต้องการ
 from django.db.models import Q
 
+# เรียกใช้งานแบบฟอร์มรีวิว
+from .forms import ReviewForm
+
+# ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
+@login_required(login_url='login') 
+def add_review(request, product_id):
+    product = Product.objects.get(pk=product_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.product = product
+            review.save()
+            return redirect('product', pk=product_id)
+    else:
+        form = ReviewForm()
+    return render(request, 'frontend/product.html', {'form': form, 'product': product})
+
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def searchWriter(request, writer):
@@ -184,7 +203,8 @@ def home(request):
         'categoryName': categoryName,
         'latest': latest,
         'username': username,
-        })
+
+    })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login')  
