@@ -18,7 +18,7 @@ clone repository to new directory
 
 /c/Django_E-Commerce/ 
 - ecom 
-- virt 
+- virt \
 and cd ecom/ \
 /c/Django_E-Commerce/ecom 
 
