@@ -10,7 +10,7 @@
 
 ## Make a new dir
 cd to dir 
-### สร้างตัวจำลองสภาพแวดล้อมของภาษา Python
+### # สร้างตัวจำลองสภาพแวดล้อมของภาษา Python
 pip install -m venv virt | python -m venv virt
 mkdir floder to keep your file
 clone repository to new directory
@@ -25,19 +25,19 @@ and cd ecom/
 
 python -m venv virt
 
-### เปิดใช้งานตัวจำลองสภาพแวดล้อมของ Django Python
+### # เปิดใช้งานตัวจำลองสภาพแวดล้อมของ Django Python
 source virt/Scripts/activate
 
-### ตรวจสอบเครื่องมือ
+### # ตรวจสอบเครื่องมือ
 pip freeze | pip list
 
-### ติดตั้งเครื่องมือ ไฟล์ requirements อยู่ในโฟลเดอร์เดียวกับ manage.py
+### # ติดตั้งเครื่องมือ ไฟล์ requirements อยู่ในโฟลเดอร์เดียวกับ manage.py
 pip install -r requirements.txt
 
 python manage.py makemigrations
 python manage.py migrate
 
-### Create Super User before run project | Please, Open Git base on VS CODE Terminal for easy way.
+### # Create Super User before run project | Please, Open Git base on VS CODE Terminal for easy way.
 python manage.py createsuperuser
 - username: admin
 - password: password
@@ -53,8 +53,8 @@ run https://localhost:8000
 rm -r myapp/migrations 
 
 python manage.py flush
-### สร้างฐานข้อมูลใหม่อ้างอิงตาม models.py | for example `python manage.py makemigrations store`
+### # สร้างฐานข้อมูลใหม่อ้างอิงตาม models.py | for example `python manage.py makemigrations store`
 python manage.py makemigrations myapp 
 
-### สร้างชุดข้อมูลทั้งหมด
+### # สร้างชุดข้อมูลทั้งหมด
 python manage.py migrate 
