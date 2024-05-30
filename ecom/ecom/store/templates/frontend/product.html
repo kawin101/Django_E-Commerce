@@ -154,9 +154,9 @@
     <div class="list-group">
       {% for review in reviews %}
         <div class="list-group-item">
-          <p class="mb-0" style="word-wrap: break-word; white-space: pre-line;">ข้อความ: {{ review.text }}</p>
+          <p class="mb-0">ผู้ใช้งาน: {{ review.user }}</p>
           <p class="mb-0">คะแนน: {{ review.rating }}</p>
-          <p class="mb-0">ผู้ใช้: {{ review.user }}</p>
+          <p class="mb-0" style="word-wrap: break-word; white-space: pre-line;">ข้อความ: {{ review.text }}</p>
         </div>
       {% endfor %}
     </div>

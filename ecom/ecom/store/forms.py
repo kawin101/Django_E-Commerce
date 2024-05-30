@@ -21,12 +21,16 @@ from .models import Review
 class ReviewForm(forms.ModelForm):
     # เพิ่ม widget สำหรับให้ผู้ใช้กรอกข้อความ และกำหนดจำนวนตัวอักษรสูงสุด
     text = forms.CharField(
+        label='ข้อความ',  # เปลี่ยน Text เป็น ข้อความ
         widget=forms.Textarea(attrs={'rows': 1, 'cols': 10, 'class': 'form-control'}),
     )
 
     class Meta:
         model = Review
         fields = ['text', 'rating']
+        labels = {
+            'rating': 'คะแนน'  # เปลี่ยน Rating เป็น คะแนน
+        }
         widgets = {
             'rating': forms.NumberInput(attrs={'step': '1', 'min': '1', 'max': '5', 'class': 'form-control'})
         }
