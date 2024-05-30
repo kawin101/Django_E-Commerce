@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Product, Category
+from .models import Product, Category, Review
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -138,12 +138,16 @@ def product(request, pk):
     # ดึงข้อมูลผู้ใช้งานมาแสดงหน้าหลัก
     username = request.user.username
     product = Product.objects.get(id=pk)
+    reviews = Review.objects.filter(product=product)
+    form = ReviewForm()
 
     categories = Category.objects.all()
     return render(request, 'frontend/product.html', {
         'product': product,
         'categories': categories,
         'username': username,
+        'reviews': reviews,
+        'form': form,
         })
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์

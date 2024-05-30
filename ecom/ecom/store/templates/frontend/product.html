@@ -150,11 +150,7 @@
     <div class="list-group">
       {% for review in reviews %}
         <div class="list-group-item">
-          <p class="mb-0">ข้อความ: 
-            {% for i in review.text|wordwrap:50 %}
-              {{ i }}<br>
-            {% endfor %}
-          </p>
+          <p class="mb-0">ข้อความ: {{ review.text }}</p>
           <p class="mb-0">คะแนน: {{ review.rating }}</p>
           <p class="mb-0">ผู้ใช้: {{ review.user }}</p>
         </div>
