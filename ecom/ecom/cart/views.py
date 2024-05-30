@@ -7,6 +7,7 @@ from django.http import HttpResponseForbidden
 # เป็นคำสั่งใน Python ที่ใช้ในโปรเจกต์ Django เพื่อให้กลายเป็น decorator (ตกแต่งฟังก์ชัน) ที่ต้องการผู้ใช้เข้าสู่ระบบก่อนที่จะทำงานในหน้า view นั้น ๆ
 from django.contrib.auth.decorators import login_required
 
+
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
 def cart_summary(request):

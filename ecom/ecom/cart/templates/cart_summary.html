@@ -23,18 +23,24 @@
                 {% csrf_token %}
                 {% if cart_products %}
                 
-                <h2 class="text-center">โปรดเลือก โรงแรมต้องการจะไปครับ</h2>  
+                <h3 class="text-center"><strong>โปรดเลือกโรงแรมที่ท่านต้องการจะไป</strong></h3>
+                <br/>
                 
                 <div class="row g-2">
                     <div class="col-md">
                         <div class="form-floating">
 
-                    <select id="location1" name="location1" required class="form-control">
+                    {% comment %} <select id="location1" name="location1" required class="form-control">
                         {% for product in cart_products %}
                             <option value="{{ product.name }}">{{ product.name }}</option>
                         {% endfor %}
                     </select>
-                    <label for="location1">โรงแรม 1</label>
+                    <label for="location1">โรงแรม 1</label> {% endcomment %}
+
+                    <div class="form-group">
+                        <label for="location1">ตำแหน่งปัจจุบัน</label>
+                        <input type="text" id="location1" name="location1" required class="form-control" readonly>
+                    </div>
 
                         </div>
                     </div>                   
@@ -46,7 +52,7 @@
                             <option value="{{ product.name }}">{{ product.name }}</option>
                         {% endfor %}
                     </select>
-                    <label for="location2">โรงแรม 2</label>
+                    <label for="location2">ปลายทาง</label>
 
                 </div>
             </div>
@@ -304,5 +310,42 @@ $(document).on('click', '.delete-product', function(e){
     });
 })
 </script>
+
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        document.getElementById("location1").value = "" + latitude + ", " + longitude;
+    }
+
+    function showError(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                alert("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                alert("The request to get user location timed out.");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+        }
+    }
+
+    window.onload = getLocation;
+</script>
+
+
 
 {% endblock %}
