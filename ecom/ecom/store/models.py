@@ -84,9 +84,9 @@ class Review(models.Model):
     # โรงแรมที่ถูกรีวิว
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     # คะแนนการรีวิว
-    rating = models.FloatField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    rating = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])
     # เนื้อหารีวิว
-    text = models.TextField(max_length=999)
+    text = models.TextField()
     # วันที่
     created_at = models.DateTimeField(auto_now_add=True)
 

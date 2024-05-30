@@ -134,23 +134,27 @@
 </div>
 
 <!-- Add Review Form -->
+<br/><br/><br/>
 <div class="container">
   <h2>เขียนรีวิวโรงแรม</h2>
   <form method="post" action="{% url 'add_review' product.id %}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">ยืนยัน</button>
+    <div class="form-group">
+      {{ form.as_p }} 
+    </div>
+    <button type="submit" class="btn btn-primary">ยืนยัน</button>
   </form>
 </div>
 
 <!-- Reviews Section -->
+<br/><br/><br/>
 <div class="container">
   <h2>รีวิวโรงแรม</h2>
   {% if reviews %}
     <div class="list-group">
       {% for review in reviews %}
         <div class="list-group-item">
-          <p class="mb-0">ข้อความ: {{ review.text }}</p>
+          <p class="mb-0" style="word-wrap: break-word; white-space: pre-line;">ข้อความ: {{ review.text }}</p>
           <p class="mb-0">คะแนน: {{ review.rating }}</p>
           <p class="mb-0">ผู้ใช้: {{ review.user }}</p>
         </div>
@@ -160,6 +164,7 @@
     <p>ไม่มีข้อมูลรีวิวโรงแรม.</p>
   {% endif %}
 </div>
+
 
 
 <br></br>

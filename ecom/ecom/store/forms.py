@@ -1,19 +1,34 @@
+'''
+โมเดล User เป็นตัวแทนของผู้ใช้ในระบบการยืนยันตัวตนของ Django 
+โดยมีฟิลด์พื้นฐาน เช่น username, password, email ฯลฯ
+'''
 from django.contrib.auth.models import User
+'''
+UserCreationForm เป็นฟอร์มที่ Django เตรียมไว้สำหรับการลงทะเบียนผู้ใช้ใหม่ 
+โดยมีฟิลด์เช่น username, password1, password2 เพื่อให้ผู้ใช้กรอกข้อมูลในการลงทะเบียน
+'''
 from django.contrib.auth.forms import UserCreationForm
+'''
+โมดูล forms ใช้สำหรับการสร้างและจัดการฟอร์มใน Django
+คุณสามารถสร้างฟอร์มใหม่โดยการสืบทอดจาก forms.Form 
+หรือ forms.ModelForm และกำหนดฟิลด์ต่างๆ ตามที่ต้องการใช้งาน
+'''
 from django import forms
 
 # นำเข้าโมเดลข้อมูลรีวิว
 from .models import Review
 
 class ReviewForm(forms.ModelForm):
-    # เพิ่ม widget สำหรับให้ผู้ใช้กรอกข้อความ
-    text = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50}))
+    # เพิ่ม widget สำหรับให้ผู้ใช้กรอกข้อความ และกำหนดจำนวนตัวอักษรสูงสุด
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 1, 'cols': 10, 'class': 'form-control'}),
+    )
 
     class Meta:
         model = Review
         fields = ['text', 'rating']
         widgets = {
-            'rating': forms.NumberInput(attrs={'step': '0.01', 'min': '0', 'max': '5'})
+            'rating': forms.NumberInput(attrs={'step': '1', 'min': '1', 'max': '5', 'class': 'form-control'})
         }
 
 # สร้างแบบฟอร์มสำหรับการค้นหาและเก็บข้อมูลล่าสุดที่ค้นหาไว้ในตัวแปร 'search_query'
