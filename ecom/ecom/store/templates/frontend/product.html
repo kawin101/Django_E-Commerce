@@ -136,14 +136,21 @@
 <!-- Add Review Form -->
 <br/><br/><br/>
 <div class="container">
+
   <h2>เขียนรีวิวโรงแรม</h2>
+
   <form method="post" action="{% url 'add_review' product.id %}">
+
     {% csrf_token %}
+
     <div class="form-group">
       {{ form.as_p }} 
     </div>
+
     <button type="submit" class="btn btn-primary">ยืนยัน</button>
   </form>
+
+
 </div>
 
 <!-- Reviews Section -->

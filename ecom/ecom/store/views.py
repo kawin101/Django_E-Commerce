@@ -18,8 +18,11 @@ from .forms import ReviewForm
 
 # ผู้ใช้งานต้อง เข้าสู่ระบบก่อนใช้งานเว็บไซต์
 @login_required(login_url='login') 
+
 def add_review(request, product_id):
+
     product = Product.objects.get(pk=product_id)
+    
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
