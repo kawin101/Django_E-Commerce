@@ -39,17 +39,20 @@
         
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>รหัสตำแหน่งโรงแรม | place_id</p></strong>
                 <input type="text" name="place_id" class="form-control" placeholder="รหัสตำแหน่งโรงแรม | place_id">
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-6">
+                <strong><p>ชื่อโรงแรม | name</p></strong>
                 <input type="text" id="name" name="name" class="form-control" placeholder="ชื่อโรงแรม | name">
             </div>
 
             <!-- จังหวัดทั้งหมด -->
             <div class="col-md-6">
+                <strong><p>ชื่อจังหวัด | category</p></strong>
                 <select name="category" class="select-chosen" style="width: 250px;">
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
@@ -60,42 +63,49 @@
         
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>ที่อยู่ | address</p></strong>
                 <textarea type="text" name="address" rows="2" class="form-control" placeholder="ที่อยู่ | address"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>เบอร์โทร | phone_number</p></strong>
                 <textarea type="text" name="phone_number" rows="1" class="form-control" placeholder="เบอร์โทร | phone_number"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>ละติจูด | latitude</p></strong>
                 <textarea type="text" name="latitude" rows="1" class="form-control" placeholder="ละติจูด | latitude"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>ลองติจูด | longitude</p></strong>
                 <textarea type="text" name="longitude" rows="1" class="form-control" placeholder="ลองติจูด | longitude"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>รูปภาพโรงแรมแบบ URL | first_photo_url</p></strong>
                 <textarea type="text" name="first_photo_url" rows="2" class="form-control" placeholder="รูปภาพโรงแรมแบบ URL | first_photo_url"></textarea>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>เว็บไซต์โรงแรมแบบ URL | website</p></strong>
                 <textarea type="text" name="website" rows="2" class="form-control" placeholder="เว็บไซต์โรงแรมแบบ URL | website"></textarea>
             </div>
         </div>
         
         <div class="form-group">
             <div class="col-md-12">
+                <strong><p>ตำแหน่งบนแผนที่แบบ URL | map_url</p></strong>
                 <textarea type="text" name="map_url" rows="2" class="form-control" placeholder="ตำแหน่งบนแผนที่แบบ URL | map_url"></textarea>
             </div>
         </div>

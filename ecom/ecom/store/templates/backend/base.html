@@ -160,7 +160,7 @@
                     <div id="page-content">
                         <!-- Mini Top Stats Row -->
                         <div class="row">
-                            <div class="col-sm-6 col-lg-3">
+                            <div class="col-sm-6 col-lg-4">
                                 <!-- Widget -->
                                 <a href="{% url 'displayForm' %}" class="widget widget-hover-effect1">
                                     <div class="widget-simple">
@@ -168,7 +168,7 @@
                                             <i class="fa fa-file-text"></i>
                                         </div>
                                         <h3 class="widget-content text-right animation-pullDown">
-                                            <strong>เพิ่มข้อมูลโรงแรม</strong><br>
+                                            <strong>เพิ่มข้อมูลโรงแรมเข้าสู่ฐานข้อมูล</strong><br>
                                             <small>ด้วยตนเอง!</small>
                                         </h3>
                                     </div>
@@ -176,8 +176,24 @@
                                 <!-- END Widget -->
                             </div>
 
-                            <!-- นำเข้าข้อมูลโรงแรมด้วยชื่อ -->
-                            <div class="col-sm-6 col-lg-3">
+                            <div class="col-sm-6 col-lg-4">
+                                <!-- Widget -->
+                                <a href="{% url 'panel' %}" class="widget widget-hover-effect1">
+                                    <div class="widget-simple">
+                                        <div class="widget-icon pull-left themed-background-spring animation-fadeIn">
+                                            <i class="gi gi-table"></i>
+                                        </div>
+                                        <h3 class="widget-content text-right animation-pullDown">
+                                            <strong>จำนวนโรงแรมทั้งหมด {{ productCount }} </strong><br>
+                                            <small>จำนวนโรงแรมทั้งหมด</small>
+                                        </h3>
+                                    </div>
+                                </a>
+                                <!-- END Widget -->
+                            </div>
+
+                            <!-- นำเข้าข้อมูลโรงแรมด้วยชื่อ ส่วนของน้ำหวาน -->
+                            {% comment %} <div class="col-sm-6 col-lg-3">
                                 <!-- Widget -->
                                 <a href="http://localhost/Numwan/MapSaveName.php" class="widget widget-hover-effect1" target="_blank">
                                     <div class="widget-simple">
@@ -191,10 +207,10 @@
                                     </div>
                                 </a>
                                 <!-- END Widget -->
-                            </div>
-                            
-                            
-                            <div class="col-sm-6 col-lg-3">
+                            </div> {% endcomment %}
+
+                            <!-- นำเข้าไฟล์ข้อมูล ส่วนของน้ำหวาน -->
+                            {% comment %} <div class="col-sm-6 col-lg-3">
                                 <!-- Widget -->
                                 <a href="http://localhost/Numwan/MapSaveAll.php" class="widget widget-hover-effect1" target="_blank">
                                     <div class="widget-simple">
@@ -208,9 +224,9 @@
                                     </div>
                                 </a>
                                 <!-- END Widget -->
-                            </div>
+                            </div> {% endcomment %}
                             
-                            <div class="col-sm-6 col-lg-3">
+                            <div class="col-sm-6 col-lg-4">
                                 <!-- Widget -->
                                 <a href="{% url 'admin:index' %}" class="widget widget-hover-effect1" target="_blank">
                                     <div class="widget-simple">
@@ -225,7 +241,6 @@
                                 </a>
                                 <!-- END Widget -->
                             </div>
-
 
                         </div>
                         <!-- END Mini Top Stats Row -->

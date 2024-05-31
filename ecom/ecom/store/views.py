@@ -169,7 +169,7 @@ def home(request):
     latest = products[:6]  # ดึงข้อมูล 10 บล็อกล่าสุด
 
     # Pagination | จำนวนโรงแรมที่แสดงแต่ละหน้า เช่น หน้าละ 6 โรงแรม
-    paginator = Paginator(products, 12)
+    paginator = Paginator(products, 6)
 
     '''
     โค้ดด้านบนมีไวยากรณ์การจัดการหน้าเว็บแบบ pagination ใน Django:

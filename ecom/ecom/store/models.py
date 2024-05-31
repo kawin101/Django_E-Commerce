@@ -78,6 +78,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+# รีวิวโรงแรม
 class Review(models.Model):
     # ผู้เขียนรีวิว
     user = models.ForeignKey(User, on_delete=models.CASCADE)
