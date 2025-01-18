@@ -1,8 +1,11 @@
 # Django_E-Commerce Docs | How to install this project
 
-Please select your language / กรุณาเลือกภาษาของคุณ:
+Please select your language / กรุณาเลือกภาษาของคุณ / Por favor seleccione su idioma / Veuillez sélectionner votre langue:
 - [English](#english)
 - [ภาษาไทย](#ภาษาไทย)
+- [Español](#español)
+- [Français](#français)
+- [Add your language here](#)
 
 ## English
 
@@ -132,5 +135,22 @@ python manage.py migrate
 
 ... เสร็จสิ้น ยินดีต้อนรับสู่โปรเจกต์จบการศึกษาของฉันที่ KKU ประเทศไทย 2023 - 2024.
 
+## Español
+
+### Descargar Python Versión 3.11.2 | 64 bits para Windows 10
+- [Descargar Python](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... HECHO, BIENVENIDO A MI PROYECTO DE FIN DE CARRERA EN KKU TAILANDIA 2023 - 2024.
+
+## Français
+
+### Télécharger Python Version 3.11.2 | 64 bits pour Windows 10
+- [Télécharger Python](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... TERMINÉ, BIENVENUE À MON PROJET DE FIN D'ÉTUDES À KKU THAÏLANDE 2023 - 2024.
+
 ---
-```
