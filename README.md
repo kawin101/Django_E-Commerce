@@ -132,6 +132,8 @@ python manage.py migrate
 
 # Django_E-Commerce Docs | How to install this project.
 
+The following section is originally written by a human:
+
 ** Download Python Version: 3.11.2 | 64 bit for Windows 10
 - https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe
 
