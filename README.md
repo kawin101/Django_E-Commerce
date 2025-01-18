@@ -1,5 +1,9 @@
 # Django_E-Commerce Docs | How to install this project
 
+Please select your language / กรุณาเลือกภาษาของคุณ:
+- [English](#english)
+- [ภาษาไทย](#ภาษาไทย)
+
 ## English
 
 ### Download Python Version: 3.11.2 | 64 bit for Windows 10
@@ -129,3 +133,4 @@ python manage.py migrate
 ... เสร็จสิ้น ยินดีต้อนรับสู่โปรเจกต์จบการศึกษาของฉันที่ KKU ประเทศไทย 2023 - 2024.
 
 ---
+```
