@@ -20,7 +20,7 @@ python -m venv virt
 
 ### Clone the repository
 ```sh
-git clone <repository_url> Django_E-Commerce
+git clone https://github.com/kawin101/Django_E-Commerce.git
 cd Django_E-Commerce/ecom
 ```
 
