@@ -1,10 +1,16 @@
 # Django_E-Commerce Docs | How to install this project
 
-Please select your language / กรุณาเลือกภาษาของคุณ / Por favor seleccione su idioma / Veuillez sélectionner votre langue:
+Please select your language / กรุณาเลือกภาษาของคุณ / Por favor seleccione su idioma / Veuillez sélectionner votre langue / 请选择你的语言 / कृपया अपनी भाषा चुनें / Пожалуйста, выберите ваш язык / Bitte wählen Sie Ihre Sprache / 请选择您的语言 / 请选择您的语言 / 请选择您的语言:
 - [English](#english)
 - [ภาษาไทย](#ภาษาไทย)
 - [Español](#español)
 - [Français](#français)
+- [中文 (简体)](#中文-简体)
+- [हिन्दी](#हिन्दी)
+- [العربية](#العربية)
+- [Português](#português)
+- [Русский](#русский)
+- [Deutsch](#deutsch)
 - [Add your language here](#)
 
 ## English
@@ -91,7 +97,7 @@ python -m venv virt
 
 ### โคลน repository
 ```sh
-git clone <repository_url> Django_E-Commerce
+git clone https://github.com/kawin101/Django_E-Commerce.git
 cd Django_E-Commerce/ecom
 ```
 
@@ -152,5 +158,59 @@ python manage.py migrate
 // ...existing code...
 
 ... TERMINÉ, BIENVENUE À MON PROJET DE FIN D'ÉTUDES À KKU THAÏLANDE 2023 - 2024.
+
+## 中文 (简体)
+
+### 下载 Python 版本 3.11.2 | 适用于 Windows 10 的 64 位
+- [下载 Python](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... 完成，欢迎来到我在泰国 KKU 的 2023 - 2024 年毕业项目。
+
+## हिन्दी
+
+### विंडोज़ 10 के लिए 64 बिट संस्करण 3.11.2 डाउनलोड करें
+- [Python डाउनलोड करें](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... हो गया, KKU थाईलैंड 2023 - 2024 में मेरी स्नातक परियोजना में आपका स्वागत है।
+
+## العربية
+
+### تحميل إصدار Python 3.11.2 | 64 بت لنظام Windows 10
+- [تحميل Python](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... تم، مرحبًا بكم في مشروع التخرج الخاص بي في KKU تايلاند 2023 - 2024.
+
+## Português
+
+### Baixar Python Versão 3.11.2 | 64 bits para Windows 10
+- [Baixar Python](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... FEITO, BEM-VINDO AO MEU PROJETO DE CONCLUSÃO DE CURSO NA KKU TAILÂNDIA 2023 - 2024.
+
+## Русский
+
+### Скачать Python версии 3.11.2 | 64 бит для Windows 10
+- [Скачать Python](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... ГОТОВО, ДОБРО ПОЖАЛОВАТЬ В МОЙ ВЫПУСКНОЙ ПРОЕКТ В KKU ТАИЛАНД 2023 - 2024.
+
+## Deutsch
+
+### Python Version 3.11.2 | 64 Bit für Windows 10 herunterladen
+- [Python herunterladen](https://www.python.org/ftp/python/3.11.2/python-3.11.2-amd64.exe)
+
+// ...existing code...
+
+... FERTIG, WILLKOMMEN ZU MEINEM ABSCHLUSSPROJEKT AN DER KKU THAILAND 2023 - 2024.
 
 ---
